@@ -8,7 +8,7 @@ export default {
       card: null as unknown as Card,             // current card to solve
       loading: false,                            // tracking card loading
       operators: [] as string[],                 // tracking operators available in game
-      usedCards: [] as string[],      // tracking indexes of cards used in game
+      usedCards: [] as string[],                 // tracking indexes of cards used in game
       operation: [] as string[],                 // tracking user operation by clicks of buttons
       answer: '' as string,                      // tracking response message from backend on operation
       answered: false,                           // tracking answer population
@@ -91,33 +91,35 @@ export default {
         this.answered = false;
         this.handleShowCard()
       }, 200);
-    }
+    },
   },
   watch: {
-  card: {
-    handler(newValue) {
-      if (newValue?.cardNumbers?.includes(24)) {
-        // array still includes 4 elements, so to get
-        // the correct response the array is converted to a
-        // string and filtered of its commas to get the remaining values
-        const conversion = newValue.cardNumbers
-          .filter((num: number) => num !== undefined)
-          .join(',');
+    card: {
+      handler(newValue: Card) {
+        if (newValue?.cardNumbers?.includes(24)) {
+          // array still includes 4 elements, so to get
+          // the correct response the array is converted to a
+          // string and filtered of its commas to get the remaining values
+          const conversion = newValue.cardNumbers
+            .filter((num: number) => num !== undefined)
+            .join(',');
 
-        if (conversion === '24') {
-          delete this.idsInDB[newValue.cardId];
-          console.log('Deleted old card');
-          console.log(this.idsInDB);
-
-          // Get new card
-          this.newCard();
+          if (conversion === '24') {
+            delete this.idsInDB[newValue.cardId];
+            console.log('New DB: ' + this.idsInDB);
+            if (this.idsInDB.some(item => typeof item === 'number')) {
+              console.log("Still cards left");
+              this.newCard();
+            } else {
+              this.endGame = true;
+            }
+          }
         }
-      }
+      },
+      deep: true,
+      immediate: true
     },
-    deep: true,
-    immediate: true
-  }
-},
+  },
   // grabbing all the card ids from the backend before loading app
   created() {
     const validOperators: string[] = [
@@ -127,12 +129,16 @@ export default {
       '/',
     ];
     this.operators = validOperators;
-    getAllCardIDs().then((ids: number[]) => {
-      this.idsInDB = ids;
-    });
-    getNewCard().then((card: Card) => {
-      this.card = card;
-    });
+
+    Promise.all([
+      getNewCard().then((card: Card) => {
+        this.card = card;
+      }),
+      getAllCardIDs().then((ids: number[]) => {
+        this.idsInDB = ids;
+      })
+    ]);
+    this.endGame = false;
   }
 }
 </script>
@@ -159,32 +165,20 @@ export default {
       <div class="mainGameComponents">
         <div v-if="card && !loading" class="cardDisplay">
           <section class="cards">
-            <button
-              class="card1"
-              @click="handleGameClick('0', card.cardNumbers[0].toString())"
-              v-if="card.cardNumbers[0]"
-            >
+            <button class="card1" @click="handleGameClick('0', card.cardNumbers[0].toString())"
+              v-if="card.cardNumbers[0]">
               {{ card.cardNumbers[0] }}
             </button>
-            <button
-              class="card2"
-              @click="handleGameClick('1', card.cardNumbers[1].toString())"
-              v-if="card.cardNumbers[1]"
-            >
+            <button class="card2" @click="handleGameClick('1', card.cardNumbers[1].toString())"
+              v-if="card.cardNumbers[1]">
               {{ card.cardNumbers[1] }}
             </button>
-            <button
-              class="card3"
-              @click="handleGameClick('2', card.cardNumbers[2].toString())"
-              v-if="card.cardNumbers[2]"
-            >
+            <button class="card3" @click="handleGameClick('2', card.cardNumbers[2].toString())"
+              v-if="card.cardNumbers[2]">
               {{ card.cardNumbers[2] }}
             </button>
-            <button
-              class="card4"
-              @click="handleGameClick('3', card.cardNumbers[3].toString())"
-              v-if="card.cardNumbers[3]"
-            >
+            <button class="card4" @click="handleGameClick('3', card.cardNumbers[3].toString())"
+              v-if="card.cardNumbers[3]">
               {{ card.cardNumbers[3] }}
             </button>
           </section>
