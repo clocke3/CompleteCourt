@@ -1,7 +1,6 @@
 <script lang="ts">
 import { Card } from '../components/types/card'
 import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi'
-import StartingTimer from './StartingTimer.vue'
 export default {
   data() {
     return {
@@ -95,6 +94,11 @@ export default {
         this.starting = false
       }
     },
+    gameTimerDone(value: number) {
+      if (value == 0) {
+        this.endGame = true
+      }
+    },
   },
   watch: {
     card: {
@@ -148,8 +152,9 @@ export default {
   <div v-else="starting">
     <div>
       <div class="endGame bg-blue-400 rounded-xl" v-if="endGame">
-        <p>You exhausted all the cards, good job!</p>
+        <p>Game Over</p>
       </div>
+      <GameTimer @done="gameTimerDone($event)" />
       <div class="nav absolute top-1 right-3">
         <router-link to="/" custom v-slot="{ navigate }">
           <button @click="navigate" role="link" class="homeButton">Home</button>
