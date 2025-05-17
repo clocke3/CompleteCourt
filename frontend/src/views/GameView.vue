@@ -8,7 +8,7 @@ export default {
       card: null as unknown as Card,             // current card to solve
       loading: false,                            // tracking card loading
       operators: [] as string[],                 // tracking operators available in game
-      usedCards: [] as number[] | string[],      // tracking indexes of cards used in game
+      usedCards: [] as string[],      // tracking indexes of cards used in game
       operation: [] as string[],                 // tracking user operation by clicks of buttons
       answer: '' as string,                      // tracking response message from backend on operation
       answered: false,                           // tracking answer population
@@ -41,7 +41,7 @@ export default {
       }
     },
     // push value to operation array
-    async handleGameClick(id: number | string, value: string) {
+    async handleGameClick(id: string, value: string) {
       try {
         if (this.operation.length == 0 && Number.isInteger(Number.parseInt(value))) {
           this.operation.push(value);
@@ -67,12 +67,14 @@ export default {
 
       // remove used cards from card array
       for (let card of this.usedCards) {
-        delete this.card.cardNumbers[card];
+        const c = Number(card);
+        delete this.card.cardNumbers[c];
       }
 
       // assign new number to array using index of last card in usedCards array
       const lastUsedCardIndex = this.usedCards.pop();
-      this.card.cardNumbers[lastUsedCardIndex] = newNumber;
+      const idx = Number(lastUsedCardIndex);
+      this.card.cardNumbers[idx] = newNumber;
 
       // empty usedCard array
       this.usedCards = [];
@@ -84,7 +86,7 @@ export default {
     // auto reset game variables and show a new card
     newCard() {
       setTimeout(() => {
-        this.operation = '';
+        this.operation = [];
         this.answer = '';
         this.answered = false;
         this.handleShowCard()
@@ -99,7 +101,7 @@ export default {
         // the correct response the array is converted to a
         // string and filtered of its commas to get the remaining values
         const conversion = newValue.cardNumbers
-          .filter(num => num !== undefined)
+          .filter((num: number) => num !== undefined)
           .join(',');
 
         if (conversion === '24') {
@@ -128,7 +130,9 @@ export default {
     getAllCardIDs().then((ids: number[]) => {
       this.idsInDB = ids;
     });
-    this.handleShowCard();
+    getNewCard().then((card: Card) => {
+      this.card = card;
+    });
   }
 }
 </script>
@@ -157,28 +161,28 @@ export default {
           <section class="cards">
             <button
               class="card1"
-              @click="handleGameClick(0, card.cardNumbers[0].toString())"
+              @click="handleGameClick('0', card.cardNumbers[0].toString())"
               v-if="card.cardNumbers[0]"
             >
               {{ card.cardNumbers[0] }}
             </button>
             <button
               class="card2"
-              @click="handleGameClick(1, card.cardNumbers[1].toString())"
+              @click="handleGameClick('1', card.cardNumbers[1].toString())"
               v-if="card.cardNumbers[1]"
             >
               {{ card.cardNumbers[1] }}
             </button>
             <button
               class="card3"
-              @click="handleGameClick(2, card.cardNumbers[2].toString())"
+              @click="handleGameClick('2', card.cardNumbers[2].toString())"
               v-if="card.cardNumbers[2]"
             >
               {{ card.cardNumbers[2] }}
             </button>
             <button
               class="card4"
-              @click="handleGameClick(3, card.cardNumbers[3].toString())"
+              @click="handleGameClick('3', card.cardNumbers[3].toString())"
               v-if="card.cardNumbers[3]"
             >
               {{ card.cardNumbers[3] }}
