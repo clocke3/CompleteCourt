@@ -1,96 +1,99 @@
 <script lang="ts">
-import { Card } from '../components/types/card';
-import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi';
+import { Card } from '../components/types/card'
+import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi'
+import StartingTimer from './StartingTimer.vue'
 export default {
   data() {
     return {
-      idsInDB: [] as number[],                   // card ids found in backend; used to track if user saw any before
-      card: null as unknown as Card,             // current card to solve
-      loading: false,                            // tracking card loading
-      operators: [] as string[],                 // tracking operators available in game
-      usedCards: [] as string[],                 // tracking indexes of cards used in game
-      operation: [] as string[],                 // tracking user operation by clicks of buttons
-      answer: '' as string,                      // tracking response message from backend on operation
-      answered: false,                           // tracking answer population
-      endGame: false,                            // tracking when all cards are exhausted (will eventually be when time runs out)
+      starting: false, // tracking starting timer
+      idsInDB: [] as number[], // card ids found in backend; used to track if user saw any before
+      card: null as unknown as Card, // current card to solve
+      loading: false, // tracking card loading
+      operators: [] as string[], // tracking operators available in game
+      usedCards: [] as string[], // tracking indexes of cards used in game
+      operation: [] as string[], // tracking user operation by clicks of buttons
+      endGame: false, // tracking when all cards are exhausted (will eventually be when time runs out)
     }
   },
   methods: {
     // show new card
     async handleShowCard() {
       try {
-        let okay = false;
+        let okay = false
         while (!okay) {
           let response: Card = {
             cardId: 0,
-            cardNumbers: []
-          };
-          if (this.idsInDB.length == 1) {
-            response = await getCardById(this.idsInDB[0]);
-          } else if (this.idsInDB.length > 1) {
-            response = await getNewCard();
+            cardNumbers: [],
           }
-          if (this.idsInDB.some(id => id === response?.cardId)) {
-            this.card = response;
-            okay = true;
+          if (this.idsInDB.length == 1) {
+            response = await getCardById(this.idsInDB[0])
+          } else if (this.idsInDB.length > 1) {
+            response = await getNewCard()
+          }
+          if (this.idsInDB.some((id) => id === response?.cardId)) {
+            this.card = response
+            okay = true
           }
         }
       } catch (error) {
-        console.error('Error getting card:', error);
-        this.loading = false;
+        console.error('Error getting card:', error)
+        this.loading = false
       }
     },
     // push value to operation array
     async handleGameClick(id: string, value: string) {
       try {
         if (this.operation.length == 0 && Number.isInteger(Number.parseInt(value))) {
-          this.operation.push(value);
-          this.usedCards.push(id);
+          this.operation.push(value)
+          this.usedCards.push(id)
         } else if (this.operation.length == 1 && this.operators.includes(value)) {
-          this.operation.push(value);
+          this.operation.push(value)
         } else if (this.operation.length == 2 && Number.isInteger(Number.parseInt(value))) {
-          this.operation.push(value);
-          this.usedCards.push(id);
-          this.handleOperation();
+          this.operation.push(value)
+          this.usedCards.push(id)
+          this.handleOperation()
         }
       } catch (error) {
-        console.error('Error getting card:', error);
-        alert(error);
-        this.loading = false;
+        console.error('Error getting card:', error)
+        alert(error)
+        this.loading = false
       }
     },
     // do operation (triggered in handleGameClick)
     async handleOperation() {
       // get new number from operation
-      console.log('We have an operation!');
-      const newNumber = await solve(this.card, this.operation);
+      console.log('We have an operation!')
+      const newNumber = await solve(this.card, this.operation)
 
       // remove used cards from card array
       for (let card of this.usedCards) {
-        const c = Number(card);
-        delete this.card.cardNumbers[c];
+        const c = Number(card)
+        delete this.card.cardNumbers[c]
       }
 
       // assign new number to array using index of last card in usedCards array
-      const lastUsedCardIndex = this.usedCards.pop();
-      const idx = Number(lastUsedCardIndex);
-      this.card.cardNumbers[idx] = newNumber;
+      const lastUsedCardIndex = this.usedCards.pop()
+      const idx = Number(lastUsedCardIndex)
+      this.card.cardNumbers[idx] = newNumber
 
       // empty usedCard array
-      this.usedCards = [];
+      this.usedCards = []
       // clear operation
-      this.operation = [];
+      this.operation = []
 
-      console.log("Card array: " + this.card.cardNumbers);
+      console.log('Card array: ' + this.card.cardNumbers)
     },
     // auto reset game variables and show a new card
     newCard() {
       setTimeout(() => {
-        this.operation = [];
-        this.answer = '';
-        this.answered = false;
+        this.operation = []
         this.handleShowCard()
-      }, 200);
+      }, 200)
+    },
+    startingTimerDone(value: number) {
+      if (value == 0) {
+        this.starting = false
+      }
     },
   },
   watch: {
@@ -102,89 +105,99 @@ export default {
           // string and filtered of its commas to get the remaining values
           const conversion = newValue.cardNumbers
             .filter((num: number) => num !== undefined)
-            .join(',');
+            .join(',')
 
           if (conversion === '24') {
-            delete this.idsInDB[newValue.cardId];
-            console.log('New DB: ' + this.idsInDB);
-            if (this.idsInDB.some(item => typeof item === 'number')) {
-              console.log("Still cards left");
-              this.newCard();
+            delete this.idsInDB[newValue.cardId]
+            console.log('New DB: ' + this.idsInDB)
+            if (this.idsInDB.some((item) => typeof item === 'number')) {
+              console.log('Still cards left')
+              this.newCard()
             } else {
-              this.endGame = true;
+              this.endGame = true
             }
           }
         }
       },
       deep: true,
-      immediate: true
+      immediate: true,
     },
   },
   // grabbing all the card ids from the backend before loading app
   created() {
-    const validOperators: string[] = [
-      '+',
-      '-',
-      'x',
-      '/',
-    ];
-    this.operators = validOperators;
+    this.starting = true
+    const validOperators: string[] = ['+', '-', 'x', '/']
+    this.operators = validOperators
 
     Promise.all([
       getNewCard().then((card: Card) => {
-        this.card = card;
+        this.card = card
       }),
       getAllCardIDs().then((ids: number[]) => {
-        this.idsInDB = ids;
-      })
-    ]);
-    this.endGame = false;
-  }
+        this.idsInDB = ids
+      }),
+    ])
+    this.endGame = false
+  },
 }
 </script>
 <template>
-  <div>
-    <div class="endGame bg-blue-400 rounded-xl" v-if="endGame">
-      <p>You exhausted all the cards, good job!</p>
-    </div>
-    <div class="nav absolute top-1 right-3">
-      <router-link to="/" custom v-slot="{ navigate }">
-        <button @click="navigate" role="link" class="homeButton">Home</button>
-      </router-link>
-    </div>
-    <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
-      <div class="operators border-2">
-        <p class="font-bold p-3">Operators</p>
-        <div class="operators grid grid-cols-2">
-          <button id="addOperator" @click="handleGameClick('addOperator', '+')">+</button>
-          <button id="subOperator" @click="handleGameClick('subOperator', '-')">-</button>
-          <button id="mulOperator" @click="handleGameClick('mulOperator', 'x')">x</button>
-          <button id="divOperator" @click="handleGameClick('divOperator', '/')">/</button>
-        </div>
+  <div v-if="starting">
+    <StartingTimer @done="startingTimerDone($event)" />
+  </div>
+  <div v-else="starting">
+    <div>
+      <div class="endGame bg-blue-400 rounded-xl" v-if="endGame">
+        <p>You exhausted all the cards, good job!</p>
       </div>
-      <div class="mainGameComponents">
-        <div v-if="card && !loading" class="cardDisplay">
-          <section class="cards">
-            <button class="card1" @click="handleGameClick('0', card.cardNumbers[0].toString())"
-              v-if="card.cardNumbers[0]">
-              {{ card.cardNumbers[0] }}
-            </button>
-            <button class="card2" @click="handleGameClick('1', card.cardNumbers[1].toString())"
-              v-if="card.cardNumbers[1]">
-              {{ card.cardNumbers[1] }}
-            </button>
-            <button class="card3" @click="handleGameClick('2', card.cardNumbers[2].toString())"
-              v-if="card.cardNumbers[2]">
-              {{ card.cardNumbers[2] }}
-            </button>
-            <button class="card4" @click="handleGameClick('3', card.cardNumbers[3].toString())"
-              v-if="card.cardNumbers[3]">
-              {{ card.cardNumbers[3] }}
-            </button>
-          </section>
+      <div class="nav absolute top-1 right-3">
+        <router-link to="/" custom v-slot="{ navigate }">
+          <button @click="navigate" role="link" class="homeButton">Home</button>
+        </router-link>
+      </div>
+      <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
+        <div class="operators border-2">
+          <p class="font-bold p-3">Operators</p>
+          <div class="operators grid grid-cols-2">
+            <button id="addOperator" @click="handleGameClick('addOperator', '+')">+</button>
+            <button id="subOperator" @click="handleGameClick('subOperator', '-')">-</button>
+            <button id="mulOperator" @click="handleGameClick('mulOperator', 'x')">x</button>
+            <button id="divOperator" @click="handleGameClick('divOperator', '/')">/</button>
+          </div>
         </div>
-        <div v-if="answer && answered" class="answer">
-          <p class="font-weight-bold">{{ answer }}</p>
+        <div class="mainGameComponents">
+          <div v-if="card && !loading" class="cardDisplay">
+            <section class="cards">
+              <button
+                class="card1"
+                @click="handleGameClick('0', card.cardNumbers[0].toString())"
+                v-if="card.cardNumbers[0]"
+              >
+                {{ card.cardNumbers[0] }}
+              </button>
+              <button
+                class="card2"
+                @click="handleGameClick('1', card.cardNumbers[1].toString())"
+                v-if="card.cardNumbers[1]"
+              >
+                {{ card.cardNumbers[1] }}
+              </button>
+              <button
+                class="card3"
+                @click="handleGameClick('2', card.cardNumbers[2].toString())"
+                v-if="card.cardNumbers[2]"
+              >
+                {{ card.cardNumbers[2] }}
+              </button>
+              <button
+                class="card4"
+                @click="handleGameClick('3', card.cardNumbers[3].toString())"
+                v-if="card.cardNumbers[3]"
+              >
+                {{ card.cardNumbers[3] }}
+              </button>
+            </section>
+          </div>
         </div>
       </div>
     </div>

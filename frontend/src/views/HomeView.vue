@@ -7,7 +7,7 @@
       <div class="welcomeMessage mb-3.5">
           <p class="text-l">Welcome To</p>
           <p class="text-2xl">Complete Court!</p>
-          <p class="text-sm">Can you get 24 from a set of cards?</p>
+          <p class="text-sm">Can you get the number 24 from a set of cards?</p>
       </div>
       <div class="gameModes">
         <router-link to="/game" custom v-slot="{ navigate }">
