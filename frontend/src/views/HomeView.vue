@@ -11,7 +11,7 @@
       </div>
       <div class="gameModes">
         <router-link to="/game" custom v-slot="{ navigate }">
-          <button @click="navigate" role="link" class="bg-blue-300">
+          <button @click="navigate" role="link" class="bg-blue-300 rounded-xl">
            Start Solo Game
           </button>
         </router-link>

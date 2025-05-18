@@ -151,7 +151,7 @@ export default {
   </div>
   <div v-else="starting">
     <div>
-      <div class="endGame bg-blue-400 rounded-xl" v-if="endGame">
+      <div class="endGame bg-blue-400 rounded-xl p-2" v-if="endGame">
         <p>Game Over</p>
       </div>
       <div class="nav absolute top-1 right-3">
@@ -184,13 +184,13 @@ export default {
         </div>
         <div class="rightSide">
           <GameTimer @done="gameTimerDone($event)" />
-          <div class="operators">
+          <div class="operators border-2">
             <TitleBar title="Operators" />
-            <div class="grid grid-cols-2 w-[400px] border-2 border-t-0 p-1.5">
-              <button id="addOperator" @click="handleGameClick('addOperator', '+')">+</button>
-              <button id="subOperator" @click="handleGameClick('subOperator', '-')">-</button>
-              <button id="mulOperator" @click="handleGameClick('mulOperator', 'x')">x</button>
-              <button id="divOperator" @click="handleGameClick('divOperator', '/')">/</button>
+            <div class="grid grid-flow-col auto-cols-max border-t-2 p-1.5">
+              <OperatorButton operator="+" @click="handleGameClick('addOperator', '+')"/>
+              <OperatorButton operator="-" @click="handleGameClick('subOperator', '-')"/>
+              <OperatorButton operator="x" @click="handleGameClick('mulOperator', 'x')"/>
+              <OperatorButton operator="/" @click="handleGameClick('divOperator', '/')"/>
             </div>
           </div>
         </div>

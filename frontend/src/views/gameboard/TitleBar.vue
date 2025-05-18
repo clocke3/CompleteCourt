@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-10 w-[400px] border-2 p-1.5">
+  <div class="h-10 w-[400px] p-1.5 bg-blue-300">
     <p class="float-left text-xl"> {{ title }}</p>
     <div class="flex flex-row float-right">
       <IconSquare />
