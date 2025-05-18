@@ -31,23 +31,3 @@
 button {
   @apply bg-blue-300 text-lg font-semibold m-2 p-2;
 }
-
-.cards > button {
-  @apply bg-blue-500 h-[100px] w-[70px] text-white;
-}
-
-.cards > button:active {
-  @apply bg-white border-blue-500 border-2 text-blue-500;
-}
-
-.operators > button {
-  @apply bg-pink-500 text-white;
-}
-
-.operators > button:active {
-  @apply bg-white text-pink-500 border-pink-500 border-2;
-}
-
-input {
-  @apply border-1;
-}

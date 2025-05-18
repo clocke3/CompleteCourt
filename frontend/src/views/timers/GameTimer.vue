@@ -27,15 +27,8 @@ export default {
 
 <template>
   <div class="flex flex-col mb-3">
-    <div class="border-2 border-b-0 w-[290px] p-1 bg-blue-300">
-      <p class="float-left pl-1 text-xl">
-        Timer
-      </p>
-      <div class="flex flex-row float-right">
-      <IconSquare />
-      <IconLineDashed class="relative top-2"/>
-      <IconX />
-    </div>
+    <div class="border-2 border-b-0 w-[290px]">
+      <TitleBar title="Timer" />
     </div>
     <div class="flex flex-row mb-3">
       <div class="border-2 h-20 w-[210px] pl-2 pt-2">

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { Card } from '../components/types/card'
 import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi'
+import TitleBar from './gameboard/TitleBar.vue'
 export default {
   data() {
     return {
@@ -61,7 +62,6 @@ export default {
     // do operation (triggered in handleGameClick)
     async handleOperation() {
       // get new number from operation
-      console.log('We have an operation!')
       const newNumber = await solve(this.card, this.operation)
 
       // remove used cards from card array
@@ -79,8 +79,6 @@ export default {
       this.usedCards = []
       // clear operation
       this.operation = []
-
-      console.log('Card array: ' + this.card.cardNumbers)
     },
     // auto reset game variables and show a new card
     newCard() {
@@ -160,25 +158,24 @@ export default {
         </router-link>
       </div>
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
-        <div class="solitaire">
-          <div v-if="card && !loading" class="cardDisplay">
-            <section class="cards">
-              <button class="card1" @click="handleGameClick('0', card.cardNumbers[0].toString())"
-                v-if="card.cardNumbers[0]">
-                {{ card.cardNumbers[0] }}
-              </button>
-              <button class="card2" @click="handleGameClick('1', card.cardNumbers[1].toString())"
-                v-if="card.cardNumbers[1]">
-                {{ card.cardNumbers[1] }}
-              </button>
-              <button class="card3" @click="handleGameClick('2', card.cardNumbers[2].toString())"
-                v-if="card.cardNumbers[2]">
-                {{ card.cardNumbers[2] }}
-              </button>
-              <button class="card4" @click="handleGameClick('3', card.cardNumbers[3].toString())"
-                v-if="card.cardNumbers[3]">
-                {{ card.cardNumbers[3] }}
-              </button>
+        <div class="solitaire border-2">
+          <div class="border-b-2">
+            <TitleBar title="Complete Court"/>
+          </div>
+          <div v-if="card && !loading" class="cardDisplay mt-30">
+            <section class="cards flex flex-row ml-6">
+              <div v-if="card.cardNumbers[0]">
+                <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length" @click="handleGameClick('0', card.cardNumbers[0].toString())" />
+              </div>
+              <div v-if="card.cardNumbers[1]">
+                <CardButton cardId="1" :cardNumber="card.cardNumbers[1]" :operationLength="operation.length" @click="handleGameClick('1', card.cardNumbers[1].toString())" />
+              </div>
+              <div v-if="card.cardNumbers[2]">
+                <CardButton cardId="2" :cardNumber="card.cardNumbers[2]" :operationLength="operation.length" @click="handleGameClick('2', card.cardNumbers[2].toString())" />
+              </div>
+              <div v-if="card.cardNumbers[3]">
+                <CardButton cardId="3" :cardNumber="card.cardNumbers[3]" :operationLength="operation.length" @click="handleGameClick('3', card.cardNumbers[3].toString())" />
+              </div>
             </section>
           </div>
         </div>
@@ -187,10 +184,10 @@ export default {
           <div class="operators border-2">
             <TitleBar title="Operators" />
             <div class="grid grid-flow-col auto-cols-max border-t-2 p-1.5">
-              <OperatorButton operator="+" @click="handleGameClick('addOperator', '+')"/>
-              <OperatorButton operator="-" @click="handleGameClick('subOperator', '-')"/>
-              <OperatorButton operator="x" @click="handleGameClick('mulOperator', 'x')"/>
-              <OperatorButton operator="/" @click="handleGameClick('divOperator', '/')"/>
+              <OperatorButton operatorId="addOperator" :operationLength="operation.length" operator="+" @click="handleGameClick('addOperator', '+')"/>
+              <OperatorButton operatorId="subOperator" :operationLength="operation.length" operator="-" @click="handleGameClick('subOperator', '-')"/>
+              <OperatorButton operatorId="mulOperator" :operationLength="operation.length" operator="x" @click="handleGameClick('mulOperator', 'x')"/>
+              <OperatorButton operatorId="divOperator" :operationLength="operation.length" operator="/" @click="handleGameClick('divOperator', '/')"/>
             </div>
           </div>
         </div>

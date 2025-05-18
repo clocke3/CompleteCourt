@@ -9,11 +9,11 @@ export default {
 </script>
 
 <template>
-  <div class="h-10 w-[400px] p-1.5 bg-blue-300">
+  <div class="h-10 p-1.5 bg-blue-300">
     <p class="float-left text-xl"> {{ title }}</p>
     <div class="flex flex-row float-right">
-      <IconSquare />
       <IconLineDashed class="relative top-2"/>
+      <IconSquare />
       <IconX />
     </div>
   </div>

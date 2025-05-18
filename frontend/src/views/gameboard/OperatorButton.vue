@@ -1,16 +1,36 @@
 <script lang="ts">
-
 export default {
   props: {
+    operatorId: String,
     operator: String,
-  }
+    operationLength: Number,
+  },
+  data() {
+    return {
+      operationLength: this.operationLength,
+      operatorId: this.operatorId,
+      isActive: false
+    }
+  },
+  watch: {
+    operationLength(newValue) {
+      if (newValue === 3) {
+        this.isActive = false;
+      }
+    }
+  },
+  methods: {
+    toggleActive() {
+      this.isActive = !this.isActive;
+    }
+  },
 }
 </script>
 
 <template>
   <div>
-    <button @click="$emit('click')">
-      <p class="text-5xl pl-1.5"> {{ operator }}</p>
+    <button id="${operatorId}" :class="isActive ? 'activeBtn' : ''" @click="[toggleActive(), $emit('click')]">
+      <p class="text-5xl"> {{ operator }}</p>
     </button>
   </div>
 </template>
@@ -23,6 +43,10 @@ button {
 }
 
 button:active {
-  @apply bg-white border-black border-b-blue-300 border-r-blue-300 text-blue-600 border-[4px];
+  @apply bg-white border-black border-b-blue-300 border-r-blue-300 text-blue-300 border-[4px];
+}
+
+.activeBtn {
+  @apply bg-white border-black border-b-blue-300 border-r-blue-300 text-blue-300 border-[4px];
 }
 </style>
