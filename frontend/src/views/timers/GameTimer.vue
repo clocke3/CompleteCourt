@@ -23,15 +23,20 @@ export default {
 </script>
 
 <template>
-  <div>
-    <div v-if="seconds == 60">
-    <p class="text-6xl text-black"> 01:00 </p>
-  </div>
-  <div v-if="seconds < 60 && seconds >= 10">
-    <p class="text-6xl text-black"> 00:{{ seconds }} </p>
-  </div>
-  <div v-if="seconds < 10">
-    <p class="text-6xl text-black"> 00:0{{ seconds }} </p>
-  </div>
+  <div class="flex flex-row mb-3">
+    <div class="border-2 h-20 w-[210px] pl-2 pt-2">
+      <div v-if="seconds == 60">
+        <p class="text-6xl text-black"> 01:00 </p>
+      </div>
+      <div v-if="seconds < 60 && seconds >= 10">
+        <p class="text-6xl text-black"> 00:{{ seconds }} </p>
+      </div>
+      <div v-if="seconds < 10">
+        <p class="text-6xl text-black"> 00:0{{ seconds }} </p>
+      </div>
+    </div>
+    <div class="hourglass border-2 border-l-0 flex-none w-20">
+      hourglass
+    </div>
   </div>
 </template>

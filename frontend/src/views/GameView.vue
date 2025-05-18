@@ -154,54 +154,44 @@ export default {
       <div class="endGame bg-blue-400 rounded-xl" v-if="endGame">
         <p>Game Over</p>
       </div>
-      <GameTimer @done="gameTimerDone($event)" />
       <div class="nav absolute top-1 right-3">
         <router-link to="/" custom v-slot="{ navigate }">
           <button @click="navigate" role="link" class="homeButton">Home</button>
         </router-link>
       </div>
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
-        <div class="operators border-2">
-          <p class="font-bold p-3">Operators</p>
-          <div class="operators grid grid-cols-2">
-            <button id="addOperator" @click="handleGameClick('addOperator', '+')">+</button>
-            <button id="subOperator" @click="handleGameClick('subOperator', '-')">-</button>
-            <button id="mulOperator" @click="handleGameClick('mulOperator', 'x')">x</button>
-            <button id="divOperator" @click="handleGameClick('divOperator', '/')">/</button>
-          </div>
-        </div>
-        <div class="mainGameComponents">
+        <div class="solitaire">
           <div v-if="card && !loading" class="cardDisplay">
             <section class="cards">
-              <button
-                class="card1"
-                @click="handleGameClick('0', card.cardNumbers[0].toString())"
-                v-if="card.cardNumbers[0]"
-              >
+              <button class="card1" @click="handleGameClick('0', card.cardNumbers[0].toString())"
+                v-if="card.cardNumbers[0]">
                 {{ card.cardNumbers[0] }}
               </button>
-              <button
-                class="card2"
-                @click="handleGameClick('1', card.cardNumbers[1].toString())"
-                v-if="card.cardNumbers[1]"
-              >
+              <button class="card2" @click="handleGameClick('1', card.cardNumbers[1].toString())"
+                v-if="card.cardNumbers[1]">
                 {{ card.cardNumbers[1] }}
               </button>
-              <button
-                class="card3"
-                @click="handleGameClick('2', card.cardNumbers[2].toString())"
-                v-if="card.cardNumbers[2]"
-              >
+              <button class="card3" @click="handleGameClick('2', card.cardNumbers[2].toString())"
+                v-if="card.cardNumbers[2]">
                 {{ card.cardNumbers[2] }}
               </button>
-              <button
-                class="card4"
-                @click="handleGameClick('3', card.cardNumbers[3].toString())"
-                v-if="card.cardNumbers[3]"
-              >
+              <button class="card4" @click="handleGameClick('3', card.cardNumbers[3].toString())"
+                v-if="card.cardNumbers[3]">
                 {{ card.cardNumbers[3] }}
               </button>
             </section>
+          </div>
+        </div>
+        <div class="rightSide">
+          <GameTimer @done="gameTimerDone($event)" />
+          <div class="operators">
+            <TitleBar title="Operators" />
+            <div class="grid grid-cols-2 w-[400px] border-2 border-t-0 p-1.5">
+              <button id="addOperator" @click="handleGameClick('addOperator', '+')">+</button>
+              <button id="subOperator" @click="handleGameClick('subOperator', '-')">-</button>
+              <button id="mulOperator" @click="handleGameClick('mulOperator', 'x')">x</button>
+              <button id="divOperator" @click="handleGameClick('divOperator', '/')">/</button>
+            </div>
           </div>
         </div>
       </div>

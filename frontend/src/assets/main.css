@@ -1,4 +1,14 @@
+@font-face {
+  font-family: Chicago;
+  src: url("fonts/chicago-12-1.otf");
+  font-weight: 300;
+  font-style: normal;
+}
 @import 'tailwindcss';
+
+@theme {
+  --font-chicago: "Chicago", "sans-serif";
+}
 
 #app {
   @apply h-screen w-screen bg-blue-100;
@@ -7,6 +17,7 @@
   align-items: center;
   text-align: center;
   min-height: 100vh;
+  font-family: var(--font-chicago);
 }
 
 .welcomeMessage > * {
