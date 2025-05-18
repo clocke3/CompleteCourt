@@ -8,8 +8,8 @@
 
 @theme {
   --font-chicago: "Chicago", "sans-serif";
+  --color-dusty-midnight: #1e3478;
 }
-
 #app {
   @apply h-screen w-screen bg-blue-100;
   display: flex;

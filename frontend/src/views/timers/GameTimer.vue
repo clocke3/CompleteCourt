@@ -35,11 +35,14 @@ export default {
         <div v-if="seconds == 60">
           <p class="text-6xl text-black"> 01:00 </p>
         </div>
-        <div v-if="seconds < 60 && seconds >= 10">
+        <div v-if="seconds < 60 && seconds > 30">
           <p class="text-6xl text-black"> 00:{{ seconds }} </p>
         </div>
-        <div v-if="seconds < 10">
-          <p class="text-6xl text-black"> 00:0{{ seconds }} </p>
+        <div v-if="seconds <= 30 && seconds >= 11">
+          <p class="text-6xl text-yellow-400"> 00:{{ seconds }} </p>
+        </div>
+        <div v-if="seconds <= 10">
+          <p class="text-6xl text-red-400"> 00:0{{ seconds }} </p>
         </div>
       </div>
       <div class="hourglass border-2 border-l-0 flex-none w-20">
