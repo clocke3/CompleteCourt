@@ -10,6 +10,7 @@
   --font-chicago: "Chicago", "sans-serif";
   --color-dusty-midnight: #1e3478;
 }
+
 #app {
   @apply h-screen w-screen bg-blue-100;
   display: flex;
@@ -20,14 +21,19 @@
   font-family: var(--font-chicago);
 }
 
-.welcomeMessage > * {
+.welcomeMes
+sage > * {
   @apply font-bold pb-2;
-}
-
-.homeButton {
-  @apply bg-green-300 rounded-2xl text-lg font-semibold m-2 p-2;
 }
 
 button {
   @apply bg-blue-300 text-lg font-semibold m-2 p-2;
+}
+
+nav > * {
+  @apply text-dusty-midnight text-2xl;
+}
+
+nav > *:hover {
+  @apply text-blue-400;
 }

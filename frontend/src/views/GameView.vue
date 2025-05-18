@@ -1,7 +1,6 @@
 <script lang="ts">
 import { Card } from '../components/types/card'
 import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi'
-import TitleBar from './gameboard/TitleBar.vue'
 export default {
   data() {
     return {
@@ -152,11 +151,7 @@ export default {
       <div class="endGame bg-blue-400 rounded-xl p-2" v-if="endGame">
         <p>Game Over</p>
       </div>
-      <div class="nav absolute top-1 right-3">
-        <router-link to="/" custom v-slot="{ navigate }">
-          <button @click="navigate" role="link" class="homeButton">Home</button>
-        </router-link>
-      </div>
+      <NavBar />
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
         <div class="solitaire border-2">
           <div class="border-b-2">

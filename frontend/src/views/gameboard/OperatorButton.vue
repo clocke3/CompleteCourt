@@ -30,7 +30,7 @@ export default {
 <template>
   <div>
     <button id="${operatorId}" :class="isActive ? 'activeBtn' : ''" @click="[toggleActive(), $emit('click')]">
-      <p class="text-5xl"> {{ operator }}</p>
+      <p class="text-5xl pl-2"> {{ operator }}</p>
     </button>
   </div>
 </template>
