@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     toggleActive() {
+      if (this.operationLength !== 0)
       this.isActive = !this.isActive;
     }
   },
@@ -40,6 +41,10 @@ export default {
 
 button {
   @apply h-20 w-20 bg-blue-300 border-t-blue-400 border-l-blue-400 border-[4px];
+}
+
+button:hover {
+  @apply text-blue-400;
 }
 
 button:active {
