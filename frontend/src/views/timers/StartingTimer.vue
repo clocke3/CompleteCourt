@@ -24,6 +24,6 @@ export default {
 
 <template>
   <div>
-    <span class="text-6xl text-pink-500"> {{ timerCount }} </span>
+    <span class="text-[300px] text-dusty-midnight"> {{ timerCount }} </span>
   </div>
 </template>
