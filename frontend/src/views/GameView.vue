@@ -55,6 +55,10 @@ export default {
           const message: string = 'First click in set must be a card!';
           console.error(message);
           alert(message);
+        } else if (this.operation.length == 1 && Number.isInteger(Number.parseInt(value))) {
+          const message: string = 'Second click in set must be an operator!';
+          console.error(message);
+          alert(message);
         }
       } catch (error) {
         console.error('Error getting card:', error)
