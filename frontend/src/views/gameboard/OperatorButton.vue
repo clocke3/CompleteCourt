@@ -40,7 +40,7 @@ export default {
 @import 'tailwindcss';
 
 button {
-  @apply h-20 w-20 bg-blue-300 border-t-blue-400 border-l-blue-400 border-[4px];
+  @apply h-20 w-20 bg-blue-300 border-t-blue-400 border-l-blue-400 border-[4px] text-lg font-semibold m-2 p-2;
 }
 
 button:hover {

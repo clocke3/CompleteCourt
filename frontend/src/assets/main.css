@@ -21,13 +21,8 @@
   font-family: var(--font-chicago);
 }
 
-.welcomeMes
-sage > * {
+.welcomeMessage > * {
   @apply font-bold pb-2;
-}
-
-button {
-  @apply bg-blue-300 text-lg font-semibold m-2 p-2;
 }
 
 nav > * {

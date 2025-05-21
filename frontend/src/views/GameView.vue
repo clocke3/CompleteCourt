@@ -175,13 +175,13 @@ export default {
   </div>
   <div v-else="starting">
     <div>
-      <div class="endGame bg-blue-400 rounded-xl p-2" v-if="endGame">
+      <div class="endGame border-dusty-midnight text-white rounded-xl p-2" v-if="endGame">
         <p>Game Over</p>
       </div>
       <NavBar />
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
-        <div class="solitaire border-2">
-          <div class="border-b-2">
+        <div class="solitaire border-2 border-dusty-midnight">
+          <div class="border-b-2 border-dusty-midnight">
             <TitleBar title="Complete Court" />
           </div>
           <div v-if="card && !loading" class="cardDisplay mt-30">
@@ -223,9 +223,9 @@ export default {
         </div>
         <div class="rightSide">
           <GameTimer @done="gameTimerDone($event)" />
-          <div class="operators border-2">
+          <div class="operators border-2 border-dusty-midnight">
             <TitleBar title="Operators" />
-            <div class="grid grid-flow-col auto-cols-max border-t-2 p-1.5">
+            <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight p-1.5">
               <OperatorButton
                 operatorId="addOperator"
                 :operationLength="operation.length"

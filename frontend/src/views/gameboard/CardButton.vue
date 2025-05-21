@@ -70,19 +70,19 @@ export default {
 @import 'tailwindcss';
 
 button {
-  @apply bg-blue-500 rounded-lg h-[100px] w-[70px] text-white outline-2 outline-solid outline-blue-600 outline-offset-2;
+  @apply bg-dusty-midnight rounded-lg h-[100px] w-[70px] text-lg font-semibold m-2 p-2 text-white outline-2 outline-solid outline-dusty-midnight outline-offset-2;
 }
 
 button:hover {
-  @apply bg-white border-blue-500 border-2 text-blue-500;
+  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight;
 }
 
 button:active {
-  @apply bg-white border-blue-500 border-2 text-blue-500;
+  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight;
 }
 
 .activeBtn {
-  @apply bg-white border-blue-500 border-2 text-blue-500;
+  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight;
 }
 
 </style>
