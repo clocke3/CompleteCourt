@@ -175,7 +175,7 @@ export default {
   </div>
   <div v-else="starting">
     <div>
-      <div class="endGame border-dusty-midnight text-white rounded-xl p-2" v-if="endGame">
+      <div class="endGame bg-dusty-midnight text-white rounded-xl p-2" v-if="endGame">
         <p>Game Over</p>
       </div>
       <NavBar />

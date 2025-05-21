@@ -67,22 +67,23 @@ export default {
 </template>
 
 <style scoped>
+@reference '../../assets/main.css';
 @import 'tailwindcss';
 
 button {
-  @apply bg-dusty-midnight rounded-lg h-[100px] w-[70px] text-lg font-semibold m-2 p-2 text-white outline-2 outline-solid outline-dusty-midnight outline-offset-2;
+  @apply bg-dusty-midnight rounded-lg h-[100px] w-[70px] text-lg font-semibold m-2 p-2 text-white outline-4 outline-solid outline-dusty-midnight outline-offset-2;
 }
 
 button:hover {
-  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight;
+  @apply bg-white h-[109px] w-[74px] border-dusty-midnight border-2 text-dusty-midnight outline-0;
 }
 
 button:active {
-  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight;
+  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight outline-0;
 }
 
 .activeBtn {
-  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight;
+  @apply bg-white border-dusty-midnight border-2 text-dusty-midnight outline-0;
 }
 
 </style>
