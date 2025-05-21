@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     toggleActive() {
+      if (this.operationLength === 0 || this.operationLength === 2)
       this.isActive = !this.isActive;
     },
     randomizeIcon() {
