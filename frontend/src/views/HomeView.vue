@@ -10,7 +10,7 @@
           <p class="text-sm">Can you get the number 24 from a set of cards?</p>
       </div>
       <div class="gameModes">
-        <router-link to="/game" custom v-slot="{ navigate }">
+        <router-link to="/loading" custom v-slot="{ navigate }">
           <button @click="navigate" role="link" class="bg-blue-300 rounded-xl">
            Start Solo Game
           </button>

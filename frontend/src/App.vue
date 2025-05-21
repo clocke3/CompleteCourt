@@ -6,6 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
       <nav>
         <RouterLink to="/" />
+        <RouterLink to="/loading" />
         <RouterLink to="/game" />
       </nav>
   </header>

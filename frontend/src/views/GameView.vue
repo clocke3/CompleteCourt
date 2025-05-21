@@ -95,6 +95,13 @@ export default {
       // clear operation
       this.operation = []
     },
+    // resetting game cards when last card in set is not 24
+    async resetCard(id: number) {
+      const response = await getCardById(id);
+      this.card = response;
+      const message = 'Set of cards will be reset. Did not achieve the number 24';
+      alert(message);
+    },
     // auto reset game variables and show a new card
     newCard() {
       setTimeout(() => {
@@ -102,21 +109,17 @@ export default {
         this.handleShowCard()
       }, 200)
     },
+    // setting game starting timer
     startingTimerDone(value: number) {
       if (value == 0) {
         this.starting = false
       }
     },
+    // setting game timer to true when the timer is done to 0
     gameTimerDone(value: number) {
       if (value == 0) {
         this.endGame = true
       }
-    },
-   async resetCard(id: number) {
-      const response = await getCardById(id);
-      this.card = response;
-      const message = 'Set of cards will be reset. Did not achieve the number 24';
-      alert(message);
     },
   },
   watch: {
