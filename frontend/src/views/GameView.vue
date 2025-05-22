@@ -179,7 +179,7 @@ export default {
         <p>Game Over</p>
       </div>
       <NavBar />
-      <div class="absolute top-[220px] left-[305px] z-0 w-2xl" v-if="!endGame">
+      <div class="absolute top-[218px] left-[305px] z-0 w-2xl" v-if="!endGame">
           <img src="../assets/images/gameboard_background.png" class="relative w-[59.3%]"/>
       </div>
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
