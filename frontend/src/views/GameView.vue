@@ -179,13 +179,16 @@ export default {
         <p>Game Over</p>
       </div>
       <NavBar />
+      <div class="absolute top-[220px] left-[305px] z-0 w-2xl" v-if="!endGame">
+          <img src="../assets/images/gameboard_background.png" class="relative w-[59.3%]"/>
+      </div>
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
-        <div class="solitaire border-2 border-dusty-midnight">
+        <div class="h-[99%] w-[400px] border-2 border-dusty-midnight">
           <div class="border-b-2 border-dusty-midnight">
             <TitleBar title="Complete Court" />
           </div>
-          <div v-if="card && !loading" class="cardDisplay mt-30">
-            <section class="cards flex flex-row relative ml-6">
+          <div v-if="card && !loading" class="cardDisplay h-[400px]">
+            <section class="cards flex flex-row absolute top-[480px] right-[735px] z-4">
               <div v-if="card.cardNumbers[0]" class="absolute top-0 right-7">
                 <CardButton
                   cardId="0"
@@ -221,11 +224,11 @@ export default {
             </section>
           </div>
         </div>
-        <div class="rightSide">
+        <div class="rightSide mt-10">
           <GameTimer @done="gameTimerDone($event)" />
-          <div class="operators border-2 border-dusty-midnight">
+          <div class="operators border-2 w-[225px] border-dusty-midnight ml-8 mt-4">
             <TitleBar title="Operators" />
-            <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight p-1.5">
+            <div class="grid grid-cols-2 auto-cols-max border-t-2 border-t-dusty-midnight p-1.5">
               <OperatorButton
                 operatorId="addOperator"
                 :operationLength="operation.length"
