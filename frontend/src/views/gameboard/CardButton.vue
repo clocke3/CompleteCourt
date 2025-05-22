@@ -15,12 +15,16 @@ export default {
       cId: 0 as number,
       cNumber: 0 as number,
       isActive: false,
-      operationLength: this.operationLength,
       icon: 0 as number,
     }
   },
+  computed: {
+    currentLength() {
+      return this.operationLength
+    }
+  },
   watch: {
-    operationLength(newValue) {
+    oLength(newValue) {
       if (newValue === 3) {
         this.isActive = false;
       }

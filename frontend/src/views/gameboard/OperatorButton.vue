@@ -1,19 +1,22 @@
 <script lang="ts">
 export default {
   props: {
-    operatorId: String,
+    oId: String,
     operator: String,
-    operationLength: Number,
+    oLength: Number,
   },
   data() {
     return {
-      operationLength: this.operationLength,
-      operatorId: this.operatorId,
       isActive: false
     }
   },
+  computed: {
+    currentLength() {
+      return this.oLength
+    }
+  },
   watch: {
-    operationLength(newValue) {
+    oLength(newValue) {
       if (newValue === 3) {
         this.isActive = false;
       }
@@ -21,16 +24,16 @@ export default {
   },
   methods: {
     toggleActive() {
-      if (this.operationLength !== 0)
-      this.isActive = !this.isActive;
+      if (this.oLength !== 0)  // Use prop directly here
+        this.isActive = !this.isActive;
     }
-  },
+  }
 }
 </script>
 
 <template>
   <div>
-    <button id="${operatorId}" :class="isActive ? 'activeBtn' : ''" @click="[toggleActive(), $emit('click')]">
+    <button id="${oId}" :class="isActive ? 'activeBtn' : ''" @click="[toggleActive(), $emit('click')]">
       <p class="text-5xl pl-2"> {{ operator }}</p>
     </button>
   </div>

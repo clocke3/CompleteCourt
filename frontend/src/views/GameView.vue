@@ -42,36 +42,48 @@ export default {
     // push value to operation array
     async handleGameClick(id: string, value: string) {
       try {
-        if (this.operation.length == 0 && Number.isInteger(Number.parseInt(value))) {
-          this.operation.push(value)
-          this.usedCards.push(id)
-        } else if (
-          this.operation.length == 1 &&
-          Number.isNaN(Number.parseInt(value)) &&
-          this.operators.includes(value)
-        ) {
-          this.operation.push(value)
-        } else if (this.operation.length == 2 && Number.isInteger(Number.parseInt(value))) {
-          this.operation.push(value)
-          this.usedCards.push(id)
-          this.handleOperation()
-        } else if (
-          this.operation.length == 0 &&
-          Number.isNaN(Number.parseInt(value)) &&
-          this.operators.includes(value)
-        ) {
-          const message: string = 'First click in set must be a card!'
-          console.error(message)
-          alert(message)
-        } else if (this.operation.length == 1 && Number.isInteger(Number.parseInt(value))) {
-          const message: string = 'Second click in set must be an operator!'
-          console.error(message)
-          alert(message)
+        // Handle first operation element
+        if (this.operation.length === 0 && Number.isInteger(Number.parseInt(value))) {
+          this.operation.push(value);
+          this.usedCards.push(id);
+          return;
         }
+
+        // Handle second operation element
+        if (this.operation.length === 1 && !Number.isInteger(Number.parseInt(value))
+          && this.operators.includes(value)) {
+          this.operation.push(value);
+          return;
+        }
+
+        // Handle third operation element
+        if (this.operation.length === 2 && Number.isInteger(Number.parseInt(value))) {
+          this.operation.push(value);
+          this.usedCards.push(id);
+          await this.handleOperation();
+          return;
+        }
+
+        // Error handling
+        const errorMessage = this.getErrorMessage(this.operation.length, value);
+        console.error(errorMessage);
+        alert(errorMessage);
+
       } catch (error) {
-        console.error('Error getting card:', error)
-        alert(error)
-        this.loading = false
+        console.error('Error handling game click:', error);
+        alert(error);
+        this.loading = false;
+      }
+    },
+    // Helper method for error messages
+    getErrorMessage(operationLength: number, value: string): string {
+      switch (operationLength) {
+        case 0:
+          return 'First click must be a card!';
+        case 1:
+          return 'Second click must be an operator!';
+        default:
+          return 'Invalid operation sequence!';
       }
     },
     // do operation (triggered in handleGameClick)
@@ -180,7 +192,7 @@ export default {
       </div>
       <NavBar />
       <div class="absolute top-[218px] left-[305px] z-0 w-2xl" v-if="!endGame">
-          <img src="../assets/images/gameboard_background.png" class="relative w-[59.3%]"/>
+        <img src="../assets/images/gameboard_background.png" class="relative w-[59.3%]" />
       </div>
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
         <div class="h-[99%] w-[400px] border-2 border-dusty-midnight">
@@ -190,69 +202,37 @@ export default {
           <div v-if="card && !loading" class="cardDisplay h-[400px]">
             <section class="cards flex flex-row absolute top-[480px] right-[735px] z-4">
               <div v-if="card.cardNumbers[0]" class="absolute top-0 right-7">
-                <CardButton
-                  cardId="0"
-                  :cardNumber="card.cardNumbers[0]"
-                  :operationLength="operation.length"
-                  @click.stop="handleGameClick('0', card.cardNumbers[0].toString())"
-                />
+                <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length"
+                  @click.stop="handleGameClick('0', card.cardNumbers[0].toString())" />
               </div>
               <div v-if="card.cardNumbers[1]" class="absolute top-0 right-[115px]">
-                <CardButton
-                  cardId="1"
-                  :cardNumber="card.cardNumbers[1]"
-                  :operationLength="operation.length"
-                  @click.stop="handleGameClick('1', card.cardNumbers[1].toString())"
-                />
+                <CardButton cardId="1" :cardNumber="card.cardNumbers[1]" :operationLength="operation.length"
+                  @click.stop="handleGameClick('1', card.cardNumbers[1].toString())" />
               </div>
               <div v-if="card.cardNumbers[2]" class="absolute top-0 right-[202px]">
-                <CardButton
-                  cardId="2"
-                  :cardNumber="card.cardNumbers[2]"
-                  :operationLength="operation.length"
-                  @click.stop="handleGameClick('2', card.cardNumbers[2].toString())"
-                />
+                <CardButton cardId="2" :cardNumber="card.cardNumbers[2]" :operationLength="operation.length"
+                  @click.stop="handleGameClick('2', card.cardNumbers[2].toString())" />
               </div>
               <div v-if="card.cardNumbers[3]" class="absolute top-0 right-[289px]">
-                <CardButton
-                  cardId="3"
-                  :cardNumber="card.cardNumbers[3]"
-                  :operationLength="operation.length"
-                  @click.stop="handleGameClick('3', card.cardNumbers[3].toString())"
-                />
+                <CardButton cardId="3" :cardNumber="card.cardNumbers[3]" :operationLength="operation.length"
+                  @click.stop="handleGameClick('3', card.cardNumbers[3].toString())" />
               </div>
             </section>
           </div>
         </div>
-        <div class="rightSide mt-10">
+        <div class="rightSide">
           <GameTimer @done="gameTimerDone($event)" />
-          <div class="operators border-2 w-[225px] border-dusty-midnight ml-8 mt-4">
+          <div class="operators border-2 border-dusty-midnight">
             <TitleBar title="Operators" />
-            <div class="grid grid-cols-2 auto-cols-max border-t-2 border-t-dusty-midnight p-1.5">
-              <OperatorButton
-                operatorId="addOperator"
-                :operationLength="operation.length"
-                operator="+"
-                @click.stop="handleGameClick('addOperator', '+')"
-              />
-              <OperatorButton
-                operatorId="subOperator"
-                :operationLength="operation.length"
-                operator="-"
-                @click.stop="handleGameClick('subOperator', '-')"
-              />
-              <OperatorButton
-                operatorId="mulOperator"
-                :operationLength="operation.length"
-                operator="x"
-                @click.stop="handleGameClick('mulOperator', 'x')"
-              />
-              <OperatorButton
-                operatorId="divOperator"
-                :operationLength="operation.length"
-                operator="/"
-                @click.stop="handleGameClick('divOperator', '/')"
-              />
+            <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight p-1.5">
+              <OperatorButton oId="addOperator" :oLength="operation.length" operator="+"
+                @click.stop="handleGameClick('addOperator', '+')" />
+              <OperatorButton oId="subOperator" :oLength="operation.length" operator="-"
+                @click.stop="handleGameClick('subOperator', '-')" />
+              <OperatorButton oId="mulOperator" :oLength="operation.length" operator="x"
+                @click.stop="handleGameClick('mulOperator', 'x')" />
+              <OperatorButton oId="divOperator" :oLength="operation.length" operator="/"
+                @click.stop="handleGameClick('divOperator', '/')" />
             </div>
           </div>
         </div>
