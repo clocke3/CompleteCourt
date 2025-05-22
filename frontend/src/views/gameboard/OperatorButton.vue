@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     toggleActive() {
-      if (this.oLength !== 0)  // Use prop directly here
+      if (this.oLength !== 0) 
         this.isActive = !this.isActive;
     }
   }

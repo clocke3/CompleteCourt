@@ -191,7 +191,7 @@ export default {
         <p>Game Over</p>
       </div>
       <NavBar />
-      <div class="absolute top-[218px] left-[305px] z-0 w-2xl" v-if="!endGame">
+      <div class="absolute top-[218px] left-[305px] z-1 w-2xl" v-if="!endGame">
         <img src="../assets/images/gameboard_background.png" class="relative w-[59.3%]" />
       </div>
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
@@ -220,7 +220,7 @@ export default {
             </section>
           </div>
         </div>
-        <div class="rightSide">
+        <div class="rightSide z-10">
           <GameTimer @done="gameTimerDone($event)" />
           <div class="operators border-2 border-dusty-midnight">
             <TitleBar title="Operators" />

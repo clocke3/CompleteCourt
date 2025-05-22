@@ -6,13 +6,13 @@ export default {
     IconHeartFilled, IconSpadeFilled, IconCloverFilled, IconDiamondsFilled,
   },
   props: {
-    cardId: Number,
+    cardId: String,
     cardNumber: Number,
     operationLength: Number,
   },
   data() {
     return {
-      cId: 0 as number,
+      cId: '' as string,
       cNumber: 0 as number,
       isActive: false,
       icon: 0 as number,
@@ -25,15 +25,17 @@ export default {
   },
   watch: {
     oLength(newValue) {
-      if (newValue === 3) {
+      if (newValue === 2) {
         this.isActive = false;
       }
     }
   },
   methods: {
     toggleActive() {
-      if (this.operationLength === 0 || this.operationLength === 2)
-      this.isActive = !this.isActive;
+      console.log(this.operationLength);
+      if (this.operationLength !== 2) {
+        this.isActive = !this.isActive;
+      }
     },
     randomizeIcon() {
       const icons = [IconHeartFilled, IconCloverFilled, IconDiamondsFilled, IconSpadeFilled];
@@ -50,7 +52,7 @@ export default {
 
 <template>
   <div>
-    <button id="${cardId}" :class="isActive ? 'activeBtn relative' : 'relative'" @click="[toggleActive(), $emit('click')]">
+    <button id="${cId}" :class="isActive ? 'activeBtn relative' : 'relative'" @click="[toggleActive(), $emit('click')]">
       <div class="absolute left-0.5 top-1">
         <IconCloverFilled v-if="icon === 1" />
         <IconHeartFilled v-if="icon === 2" />
