@@ -19,7 +19,7 @@ export default {
     }
   },
   watch: {
-    oLength(newValue) {
+    operationLength(newValue) {
       if (newValue === 2) {
         this.isActive = false;
       }

@@ -1,12 +1,8 @@
 <script lang="ts">
 import { Card } from '../components/types/card'
 import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi'
-import { IconX } from '@tabler/icons-vue';
 
 export default {
-  components: {
-    IconX,
-  },
   data() {
     return {
       starting: false, // tracking starting timer
@@ -18,6 +14,7 @@ export default {
       operation: [] as string[], // tracking user operation by clicks of buttons
       endGame: false, // tracking when all cards are exhausted (will eventually be when time runs out)
       errors: [] as string[],
+      gameTimer: 0 as number,
     }
   },
   methods: {
@@ -100,7 +97,6 @@ export default {
     async handleOperation() {
       // get new number from operation
       const newNumber = await solve(this.card, this.operation)
-      console.log(newNumber);
 
       // remove used cards from card array
       for (let card of this.usedCards) {
@@ -147,15 +143,12 @@ export default {
         this.endGame = true
       }
     },
+    saveTime(){
+      const query = this.$route.query;
+      this.gameTimer = Number.parseInt(query.gameTime);
+    }
   },
   watch: {
-    // errors: {
-    //   handler(newError: string) {
-    //     if (newError) {
-
-    //     }
-    //   }
-    // }
     card: {
       handler(newValue: Card) {
         if (newValue) {
@@ -188,7 +181,6 @@ export default {
     this.starting = true;
     const validOperators: string[] = ['+', '-', 'x', '/'];
     this.operators = validOperators;
-
     Promise.all([
       getNewCard().then((card: Card) => {
         this.card = card;
@@ -197,6 +189,7 @@ export default {
         this.idsInDB = ids;
       }),
     ])
+    this.saveTime()
     this.endGame = false;
   },
 }
@@ -244,7 +237,7 @@ export default {
           </div>
         </div>
         <div class="rightSide z-10">
-          <GameTimer @done="gameTimerDone($event)" />
+          <GameTimer :seconds="gameTimer" @done="gameTimerDone($event)" />
           <div class="operators border-2 border-dusty-midnight-300">
             <TitleBar title="Operators" />
             <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight-300 p-1.5">
