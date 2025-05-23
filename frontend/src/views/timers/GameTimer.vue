@@ -11,6 +11,7 @@ export default {
       min: '' as string,
       sec: '' as string,
       overall: this.seconds as number,
+      turn: false,
     }
   },
   watch: {
@@ -22,6 +23,9 @@ export default {
           }, 1000);
          this.sec = this.convertSeconds(value);
          this.min = this.convertMinutes(value);
+         if(value % 6 == 0){
+          this.turn = !this.turn;
+         }
         } else {
           this.$emit('done', value);
         }
@@ -71,8 +75,14 @@ export default {
         </div>
       </div>
       <div class="hourglass border-2 border-dusty-midnight-300 border-l-0 flex-none w-20">
-        <div class="mt-0.5 animate-spin-slow">
-          <img src="@/assets/images/hourglass2.png.webp" height="115px" width="70px" />
+        <div class="glass">
+          <img src="@/assets/images/timers/hourglass.png" height="120px" width="71px" v-show="overall % 6 == 0 && turn" />
+          <img src="@/assets/images/timers/hourglass_2.png" height="120px" width="71px" v-show="overall % 6 == 1" />
+          <img src="@/assets/images/timers/hourglass_3.png" height="120px" width="71px" v-show="overall % 6 == 2" />
+          <img src="@/assets/images/timers/hourglass_4.png" height="120px" width="71px" v-show="overall % 6 == 3" />
+          <img src="@/assets/images/timers/hourglass_5.png" height="120px" width="71px" v-show="overall % 6 == 4" />
+          <img src="@/assets/images/timers/hourglass_6.png" height="120px" width="71px" v-show="overall % 6 == 5" />
+          <img src="@/assets/images/timers/hourglass.png" class="rotate-180" height="120px" width="71px" v-show="overall % 6 == 0 && !turn" />
         </div>
       </div>
     </div>
@@ -81,18 +91,7 @@ export default {
 
 <style>
 @import 'tailwindcss';
-
-@theme {
-  --animate-spin-slow: spin-slow 2s infinite;
-
-  @keyframes spin-slow {
-    50% {
-      transform: rotate(90deg);
-    }
-
-    100% {
-      transform: rotate(180deg);
-    }
-  }
+.glass {
+  @apply mt-1 mr-1 rotate-180;
 }
 </style>
