@@ -30,13 +30,13 @@ export default {
     }
   },
   methods: {
-    convertMinutes(e) {
+    convertMinutes(e: number) {
       if (e < 60) {
         return e.toString().padStart(2, '0');
       }
       return Math.floor(e % 3600 / 60).toString().padStart(2, '0');
     },
-    convertSeconds(e) {
+    convertSeconds(e: number) {
       if (e < 60) {
         return e.toString().padStart(2, '0');
       }
@@ -57,17 +57,17 @@ export default {
     </div>
     <div class="flex flex-row mb-3">
       <div class="border-2 border-dusty-midnight-300 h-20 w-[210px] pl-2 pt-2">
-        <div v-if="this.overall >= 60">
+        <div v-if="overall >= 60">
           <p class="text-6xl text-dusty-midnight-300"> {{ min }}:{{ sec }}</p>
         </div>
-        <div v-if="this.overall < 60 && this.overall > 10">
+        <div v-if="overall < 60 && overall > 10">
           <p class="text-6xl text-dusty-midnight-300"> 00:{{ sec }} </p>
         </div>
-        <div v-if="this.overall == 10">
+        <div v-if="overall == 10">
           <p class="text-6xl text-red-600"> 00:{{ sec }} </p>
         </div>
-        <div v-if="this.overall < 10">
-          <p class="text-6xl text-red-600"> 00:0{{ sec }} </p>
+        <div v-if="overall < 10">
+          <p class="text-6xl text-red-600"> 00:{{ sec }} </p>
         </div>
       </div>
       <div class="hourglass border-2 border-dusty-midnight-300 border-l-0 flex-none w-20">

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useRoute } from 'vue-router';
+import { LocationQuery, useRoute } from 'vue-router';
 import { computed } from 'vue'
 export default {
   data() {
@@ -13,8 +13,11 @@ export default {
     chooseRandomNumber() {
       return Math.floor(Math.random() * 21) + 1;
     },
-    saveTime(value){
-      this.timer = Number.parseInt(value);
+    saveTime(){
+      const query: LocationQuery = this.$route.query;
+      const time: string = query.time!.toString()
+      this.timer = Number.parseInt(time);
+      console.log(this.timer);
       if (this.timer == 60) {
         this.timerText = '1'
       } else if (this.timer == 120) {
@@ -39,14 +42,17 @@ export default {
       immediate: true
     }
   },
+  created() {
+    this.saveTime()
+  }
 }
 </script>
 
 <template>
   <div>
-    <div class="h-28 w-96 border-2 rounded-lg border-dusty-midnight-300">
+    <div class="h-28 w-96 border-2 border-dusty-midnight-300">
       <div class="bar border-b-2 border-b-dusty-midnight-300 bg-dusty-midnight-300" v-b>
-        <span class="text-white">{{saveTime($route.query.time)}}Entering {{ this.timerText }} Minute Game...</span>
+        <span class="text-white">Entering {{ timerText }} Minute Game...</span>
       </div>
       <div class="loadingBarArea flex flex-row ml-3">
         <div class="loadingBar h-7 w-64 inset-shadow-xs inset-shadow-gray-500 ml-8 mt-7">

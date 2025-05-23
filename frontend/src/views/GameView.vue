@@ -1,4 +1,5 @@
 <script lang="ts">
+import { LocationQuery, LocationQueryValue } from 'vue-router'
 import { Card } from '../components/types/card'
 import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi'
 
@@ -74,8 +75,8 @@ export default {
           this.errors = [];
       }, 3000);
 
-      } catch (error) {
-        this.errors.push(errorMessage);
+      } catch (error: any) {
+        this.errors.push(error.message);
         setTimeout(() => {
           this.errors = [];
       }, 3000);
@@ -144,8 +145,9 @@ export default {
       }
     },
     saveTime(){
-      const query = this.$route.query;
-      this.gameTimer = Number.parseInt(query.gameTime);
+      const query: LocationQuery = this.$route.query;
+      const gameTime: string | Object = query.gameTime!.valueOf();
+      this.gameTimer = Number.parseInt(gameTime.toString());
     }
   },
   watch: {
