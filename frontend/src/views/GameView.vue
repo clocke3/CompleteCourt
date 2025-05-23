@@ -1,7 +1,12 @@
 <script lang="ts">
 import { Card } from '../components/types/card'
 import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameApi'
+import { IconX } from '@tabler/icons-vue';
+
 export default {
+  components: {
+    IconX,
+  },
   data() {
     return {
       starting: false, // tracking starting timer
@@ -12,6 +17,7 @@ export default {
       usedCards: [] as string[], // tracking indexes of cards used in game
       operation: [] as string[], // tracking user operation by clicks of buttons
       endGame: false, // tracking when all cards are exhausted (will eventually be when time runs out)
+      errors: [] as string[],
     }
   },
   methods: {
@@ -66,12 +72,16 @@ export default {
 
         // Error handling
         const errorMessage = this.getErrorMessage(this.operation.length, value);
-        console.error(errorMessage);
-        alert(errorMessage);
+        this.errors.push(errorMessage);
+        setTimeout(() => {
+          this.errors = [];
+      }, 3000);
 
       } catch (error) {
-        console.error('Error handling game click:', error);
-        alert(error);
+        this.errors.push(errorMessage);
+        setTimeout(() => {
+          this.errors = [];
+      }, 3000);
         this.loading = false;
       }
     },
@@ -79,11 +89,11 @@ export default {
     getErrorMessage(operationLength: number, value: string): string {
       switch (operationLength) {
         case 0:
-          return 'First click must be a card!';
+          return 'first click must be a card!';
         case 1:
-          return 'Second click must be an operator!';
+          return 'second click must be an operator!';
         default:
-          return 'Invalid operation sequence!';
+          return 'invalid operation sequence!';
       }
     },
     // do operation (triggered in handleGameClick)
@@ -112,8 +122,8 @@ export default {
     async resetCard(id: number) {
       const response = await getCardById(id);
       this.card = response;
-      const message = 'Set of cards will be reset. Did not achieve the number 24';
-      alert(message);
+      const message = 'Did not achieve the number 24, cards will be reset.';
+      this.errors = errorMessage;
     },
     // auto reset game variables and show a new card
     newCard() {
@@ -136,6 +146,13 @@ export default {
     },
   },
   watch: {
+    // errors: {
+    //   handler(newError: string) {
+    //     if (newError) {
+
+    //     }
+    //   }
+    // }
     card: {
       handler(newValue: Card) {
         if (newValue) {
@@ -148,9 +165,7 @@ export default {
 
           if (conversion === '24') {
             delete this.idsInDB[newValue.cardId]
-            console.log('New DB: ' + this.idsInDB)
             if (this.idsInDB.some((item) => typeof item === 'number')) {
-              console.log('Still cards left')
               this.newCard()
             } else {
               this.endGame = true
@@ -166,19 +181,20 @@ export default {
   },
   // grabbing all the card ids from the backend before loading app
   created() {
-    this.starting = true
-    const validOperators: string[] = ['+', '-', 'x', '/']
-    this.operators = validOperators
+    this.errors = [];
+    this.starting = true;
+    const validOperators: string[] = ['+', '-', 'x', '/'];
+    this.operators = validOperators;
 
     Promise.all([
       getNewCard().then((card: Card) => {
-        this.card = card
+        this.card = card;
       }),
       getAllCardIDs().then((ids: number[]) => {
-        this.idsInDB = ids
+        this.idsInDB = ids;
       }),
     ])
-    this.endGame = false
+    this.endGame = false;
   },
 }
 </script>
@@ -192,6 +208,9 @@ export default {
         <p>Game Over</p>
       </div>
       <NavBar />
+      <div class="errors absolute top-1/12 left-[490px] text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
+        WARNING: {{  errors[0] }}
+      </div>
       <div class="absolute top-[218px] left-[306px] z-1 w-2xl" v-if="!endGame">
         <img src="../assets/images/gameboard_background.png" class="relative w-[58.9%]" />
       </div>
