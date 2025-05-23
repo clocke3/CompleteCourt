@@ -39,10 +39,10 @@ export default {
           <p class="text-6xl text-dusty-midnight-300"> 00:{{ seconds }} </p>
         </div>
         <div v-if="seconds == 10">
-          <p class="text-6xl text-red-400"> 00:{{ seconds }} </p>
+          <p class="text-6xl text-red-600"> 00:{{ seconds }} </p>
         </div>
         <div v-if="seconds < 10">
-          <p class="text-6xl text-red-400"> 00:0{{ seconds }} </p>
+          <p class="text-6xl text-red-600"> 00:0{{ seconds }} </p>
         </div>
       </div>
       <div class="hourglass border-2 border-dusty-midnight-300 border-l-0 flex-none w-20">

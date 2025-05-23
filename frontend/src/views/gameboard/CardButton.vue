@@ -53,21 +53,17 @@ export default {
 <template>
   <div>
     <button id="${cId}" :class="isActive ? 'activeBtn relative' : 'relative'" @click="[toggleActive(), $emit('click')]">
-      <div class="absolute left-0.5 top-1">
-        <IconCloverFilled v-if="icon === 1" />
-        <IconHeartFilled v-if="icon === 2" />
-        <IconDiamondsFilled v-if="icon === 3" />
-        <IconSpadeFilled v-if="icon === 4" />
-      </div>
-      <span class="text-4xl pl-1">
+        <img src="../../assets/images/cards/regular/card_clover_reg.png" v-show="!isActive && icon == 1" />
+        <img src="../../assets/images/cards/active/card_clover_active.png" v-show="isActive && icon == 1" />
+        <img src="../../assets/images/cards/regular/card_heart_reg.png" v-show="!isActive && icon == 2" />
+        <img src="../../assets/images/cards/active/card_heart_active.png" v-show="isActive && icon == 2" />
+        <img src="../../assets/images/cards/regular/card_diamond_reg.png" v-show="!isActive && icon == 3" />
+        <img src="../../assets/images/cards/active/card_diamond_active.png" v-show="isActive && icon == 3" />
+        <img src="../../assets/images/cards/regular/card_spade_reg.png" v-show="!isActive && icon == 4" />
+        <img src="../../assets/images/cards/active/card_spade_active.png" v-show="isActive && icon == 4" />
+       <div :class="cardNumber > 9 ? 'doubleDigits' : 'cardNumber'">
         {{ cardNumber }}
-      </span>
-      <div class="absolute right-0.5 bottom-1">
-        <IconCloverFilled v-if="icon === 1" />
-        <IconHeartFilled v-if="icon === 2" />
-        <IconDiamondsFilled v-if="icon === 3" />
-        <IconSpadeFilled v-if="icon === 4" />
-      </div>
+       </div>
     </button>
   </div>
 </template>
@@ -76,19 +72,28 @@ export default {
 @reference '../../assets/main.css';
 @import "tailwindcss";
 
-button {
-  @apply bg-dusty-midnight-300 rounded-lg h-[100px] w-[70px] text-lg font-semibold m-2 p-2 text-white outline-4 outline-solid outline-dusty-midnight-300 outline-offset-2;
+.cardNumber {
+  @apply absolute top-14 left-9 text-4xl pl-1 text-white z-40;
 }
 
-button:hover {
-  @apply bg-white h-[109px] w-[74px] border-dusty-midnight-300 border-2 text-dusty-midnight-300 outline-0;
+button {
+  @apply bg-transparent h-[150px] w-[94px] text-lg font-semibold m-2 p-2;
 }
 
 button:active {
-  @apply bg-white border-dusty-midnight-300 border-2 text-dusty-midnight-300 outline-0;
+  @apply bg-transparent;
 }
 
-.activeBtn {
-  @apply bg-white border-dusty-midnight-300 border-2 text-dusty-midnight-300 outline-0;
+.activeBtn > .cardNumber {
+  @apply text-dusty-midnight-300;
 }
+
+.doubleDigits {
+  @apply absolute top-14 left-6 text-4xl pl-1 text-white z-40;
+}
+
+.activeBtn > .doubleDigits {
+  @apply text-dusty-midnight-300;
+}
+
 </style>

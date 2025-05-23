@@ -201,7 +201,7 @@ export default {
             <TitleBar title="Complete Court" />
           </div>
           <div v-if="card && !loading" class="cardDisplay h-[400px]">
-            <section class="cards flex flex-row absolute top-[480px] right-[735px] z-4">
+            <section class="cards flex flex-row absolute top-[460px] right-[720px] z-4">
               <div v-if="card.cardNumbers[0]" class="absolute top-0 right-7">
                 <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length"
                   @click.stop="handleGameClick('0', card.cardNumbers[0].toString())" />
