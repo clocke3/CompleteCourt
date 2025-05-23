@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     toggleActive() {
-      if (this.oLength !== 0) 
+      if (this.oLength !== 0)
         this.isActive = !this.isActive;
     }
   }
@@ -40,21 +40,22 @@ export default {
 </template>
 
 <style scoped>
-@import 'tailwindcss';
+@reference '../../assets/main.css';
+@import "tailwindcss";
 
 button {
-  @apply h-20 w-20 bg-blue-300 border-t-blue-400 border-l-blue-400 border-[4px] text-lg font-semibold m-2 p-2;
+  @apply h-20 w-20 bg-dusty-midnight-200 border-b-black border-r-black border-[4px] text-lg text-white font-semibold m-2 p-2;
 }
 
 button:hover {
-  @apply text-blue-400;
+  @apply bg-dusty-midnight-300 text-white;
 }
 
 button:active {
-  @apply bg-white border-black border-b-blue-300 border-r-blue-300 text-blue-300 border-[4px];
+  @apply bg-white border-black border-b-dusty-midnight-100 border-r-dusty-midnight-100 text-dusty-midnight-200 border-[4px];
 }
 
 .activeBtn {
-  @apply bg-white border-black border-b-blue-300 border-r-blue-300 text-blue-300 border-[4px];
+  @apply bg-white border-black border-b-dusty-midnight-100 border-r-dusty-midnight-100 text-dusty-midnight-200 border-[4px];
 }
 </style>

@@ -97,7 +97,7 @@ public class GameService {
             case "+" -> result = num1 + num2;
             case "-" -> result = num1 - num2;
             case "x" -> result = num1 * num2;
-            case "/" -> result = num1 - num2;
+            case "/" -> result = num1 / num2;
             default -> {
             }
         }

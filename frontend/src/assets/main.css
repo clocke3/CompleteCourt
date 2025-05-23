@@ -8,7 +8,9 @@
 
 @theme {
   --font-chicago: "Chicago", "sans-serif";
-  --color-dusty-midnight: #1e3478;
+  --color-dusty-midnight-100: #8E95E5;
+  --color-dusty-midnight-200: #5862AD;
+  --color-dusty-midnight-300: #1E3478;
 }
 
 #app {
@@ -26,7 +28,7 @@
 }
 
 nav > * {
-  @apply text-dusty-midnight text-2xl;
+  @apply text-dusty-midnight-300 text-2xl;
 }
 
 nav > *:hover {

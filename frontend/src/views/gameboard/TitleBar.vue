@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-10 p-1.5 bg-dusty-midnight">
+  <div class="h-10 p-1.5 bg-dusty-midnight-300">
     <p class="float-left text-xl text-white"> {{ title }}</p>
     <div class="flex flex-row float-right">
       <IconLineDashed class="relative top-2 text-white"/>

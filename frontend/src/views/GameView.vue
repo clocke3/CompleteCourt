@@ -90,6 +90,7 @@ export default {
     async handleOperation() {
       // get new number from operation
       const newNumber = await solve(this.card, this.operation)
+      console.log(newNumber);
 
       // remove used cards from card array
       for (let card of this.usedCards) {
@@ -187,16 +188,16 @@ export default {
   </div>
   <div v-else="starting">
     <div>
-      <div class="endGame bg-dusty-midnight text-white rounded-xl p-2" v-if="endGame">
+      <div class="endGame bg-dusty-midnight-300 text-white rounded-xl p-2" v-if="endGame">
         <p>Game Over</p>
       </div>
       <NavBar />
-      <div class="absolute top-[218px] left-[305px] z-1 w-2xl" v-if="!endGame">
-        <img src="../assets/images/gameboard_background.png" class="relative w-[59.3%]" />
+      <div class="absolute top-[218px] left-[306px] z-1 w-2xl" v-if="!endGame">
+        <img src="../assets/images/gameboard_background.png" class="relative w-[58.9%]" />
       </div>
       <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
-        <div class="h-[99%] w-[400px] border-2 border-dusty-midnight">
-          <div class="border-b-2 border-dusty-midnight">
+        <div class="h-[99%] w-[400px] border-2 border-dusty-midnight-300">
+          <div class="border-b-2 border-dusty-midnight-300">
             <TitleBar title="Complete Court" />
           </div>
           <div v-if="card && !loading" class="cardDisplay h-[400px]">
@@ -222,9 +223,9 @@ export default {
         </div>
         <div class="rightSide z-10">
           <GameTimer @done="gameTimerDone($event)" />
-          <div class="operators border-2 border-dusty-midnight">
+          <div class="operators border-2 border-dusty-midnight-300">
             <TitleBar title="Operators" />
-            <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight p-1.5">
+            <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight-300 p-1.5">
               <OperatorButton oId="addOperator" :oLength="operation.length" operator="+"
                 @click.stop="handleGameClick('addOperator', '+')" />
               <OperatorButton oId="subOperator" :oLength="operation.length" operator="-"

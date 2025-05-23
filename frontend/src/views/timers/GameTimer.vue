@@ -27,19 +27,16 @@ export default {
 
 <template>
   <div class="flex flex-col mb-3">
-    <div class="border-2 border-b-0 border-dusty-midnight w-[290px]">
+    <div class="border-2 border-b-0 border-dusty-midnight-300 w-[290px]">
       <TitleBar title="Timer" />
     </div>
     <div class="flex flex-row mb-3">
-      <div class="border-2 border-dusty-midnight h-20 w-[210px] pl-2 pt-2">
+      <div class="border-2 border-dusty-midnight-300 h-20 w-[210px] pl-2 pt-2">
         <div v-if="seconds == 60">
-          <p class="text-6xl text-black"> 01:00 </p>
+          <p class="text-6xl text-dusty-midnight-300"> 01:00 </p>
         </div>
-        <div v-if="seconds < 60 && seconds > 30">
-          <p class="text-6xl text-black"> 00:{{ seconds }} </p>
-        </div>
-        <div v-if="seconds <= 30 && seconds > 10">
-          <p class="text-6xl text-yellow-400"> 00:{{ seconds }} </p>
+        <div v-if="seconds < 60 && seconds > 10">
+          <p class="text-6xl text-dusty-midnight-300"> 00:{{ seconds }} </p>
         </div>
         <div v-if="seconds == 10">
           <p class="text-6xl text-red-400"> 00:{{ seconds }} </p>
@@ -48,7 +45,7 @@ export default {
           <p class="text-6xl text-red-400"> 00:0{{ seconds }} </p>
         </div>
       </div>
-      <div class="hourglass border-2 border-dusty-midnight border-l-0 flex-none w-20">
+      <div class="hourglass border-2 border-dusty-midnight-300 border-l-0 flex-none w-20">
         <div class="mt-0.5 animate-spin-slow">
           <img src="@/assets/images/hourglass2.png.webp" height="115px" width="70px"/>
         </div>
