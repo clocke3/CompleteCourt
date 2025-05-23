@@ -1,10 +1,5 @@
 <script lang="ts">
-import { Icon, IconCloverFilled, IconDiamondsFilled, IconHeartFilled, IconSpadeFilled } from '@tabler/icons-vue';
-
 export default {
-  components: {
-    IconHeartFilled, IconSpadeFilled, IconCloverFilled, IconDiamondsFilled,
-  },
   props: {
     cardId: String,
     cardNumber: Number,
@@ -33,13 +28,12 @@ export default {
   methods: {
     toggleActive() {
       console.log(this.operationLength);
-      if (this.operationLength !== 2) {
+      if (this.operationLength == 0) {
         this.isActive = !this.isActive;
       }
     },
     randomizeIcon() {
-      const icons = [IconHeartFilled, IconCloverFilled, IconDiamondsFilled, IconSpadeFilled];
-      return Math.floor(Math.random() * icons.length + 1);
+      return Math.floor(Math.random() * 4 + 1);
     }
   },
   created() {

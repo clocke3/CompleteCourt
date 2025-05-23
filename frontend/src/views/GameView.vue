@@ -89,11 +89,11 @@ export default {
     getErrorMessage(operationLength: number, value: string): string {
       switch (operationLength) {
         case 0:
-          return 'first click must be a card!';
+          return 'WARNING: first click must be a card!';
         case 1:
-          return 'second click must be an operator!';
+          return 'WARNING: second click must be an operator!';
         default:
-          return 'invalid operation sequence!';
+          return 'WARNING: invalid operation sequence!';
       }
     },
     // do operation (triggered in handleGameClick)
@@ -122,8 +122,11 @@ export default {
     async resetCard(id: number) {
       const response = await getCardById(id);
       this.card = response;
-      const message = 'Did not achieve the number 24, cards will be reset.';
-      this.errors = errorMessage;
+      const message = 'WARNING: didn\'t get 24, cards were reset.';
+      this.errors.push(message);
+        setTimeout(() => {
+          this.errors = [];
+      }, 3000);
     },
     // auto reset game variables and show a new card
     newCard() {
@@ -209,7 +212,7 @@ export default {
       </div>
       <NavBar />
       <div class="errors absolute top-1/12 left-[490px] text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
-        WARNING: {{  errors[0] }}
+        {{  errors[0] }}
       </div>
       <div class="absolute top-[218px] left-[306px] z-1 w-2xl" v-if="!endGame">
         <img src="../assets/images/gameboard_background.png" class="relative w-[58.9%]" />
