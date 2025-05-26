@@ -6,16 +6,17 @@ import { getNewCard, solve, getAllCardIDs, getCardById } from '../services/gameA
 export default {
   data() {
     return {
-      starting: false, // tracking starting timer
-      idsInDB: [] as number[], // card ids found in backend; used to track if user saw any before
-      card: null as unknown as Card, // current card to solve
-      loading: false, // tracking card loading
-      operators: [] as string[], // tracking operators available in game
-      usedCards: [] as string[], // tracking indexes of cards used in game
-      operation: [] as string[], // tracking user operation by clicks of buttons
-      endGame: false, // tracking when all cards are exhausted (will eventually be when time runs out)
-      errors: [] as string[],
-      gameTimer: 0 as number,
+      starting: false,                   // starting timer
+      idsInDB: [] as number[],           // card ids found in backend; used to track if user saw any before
+      card: null as unknown as Card,     // current card to solve
+      loading: false,                    // card loading during a round
+      operators: [] as string[],         // operators available in game
+      usedCards: [] as string[],         // indexes of cards used in game
+      operation: [] as string[],         // user operation by click of buttons
+      endGame: false,                    // when all cards are exhausted or timer runs out
+      errors: [] as string[],            // errors caught while playing the game
+      gameTimer: 0 as number,            // timer for game
+      solved: 0 as number,               // number of cards solved when time runs out
     }
   },
   methods: {
@@ -159,14 +160,15 @@ export default {
           // string and filtered of its commas to get the remaining values
           const conversion = newValue!.cardNumbers
             .filter((num: number) => num !== undefined)
-            .join(',')
+            .join(',');
 
           if (conversion === '24') {
             delete this.idsInDB[newValue.cardId]
             if (this.idsInDB.some((item) => typeof item === 'number')) {
-              this.newCard()
+              this.newCard();
+              this.solved++;
             } else {
-              this.endGame = true
+              this.endGame = true;
             }
           } else if (!conversion.includes(',') && conversion !== '24') {
             this.resetCard(newValue!.cardId);
@@ -191,7 +193,7 @@ export default {
         this.idsInDB = ids;
       }),
     ])
-    this.saveTime()
+    this.saveTime();
     this.endGame = false;
   },
 }
@@ -202,23 +204,25 @@ export default {
   </div>
   <div v-else="starting">
     <div>
-      <div class="endGame bg-dusty-midnight-300 text-white rounded-xl p-2" v-if="endGame">
+      <div class="text-dusty-midnight-300 text-4xl" v-if="endGame">
         <p>Game Over</p>
+        <p v-if="solved !== 1">Congratulations! You solved {{ solved }} sets!</p>
+        <p v-if="solved == 1">Congratulations! You solved 1 sets</p>
       </div>
       <NavBar />
-      <div class="errors absolute top-1/12 left-[490px] text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
+      <div class="absolute top-1/12 left-[490px] text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
         {{  errors[0] }}
       </div>
       <div class="absolute top-[218px] left-[306px] z-1 w-2xl" v-if="!endGame">
         <img src="../assets/images/gameboard_background.png" class="relative w-[58.9%]" />
       </div>
-      <div class="gameBoard rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
+      <div class="rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
         <div class="h-[99%] w-[400px] border-2 border-dusty-midnight-300">
           <div class="border-b-2 border-dusty-midnight-300">
             <TitleBar title="Complete Court" />
           </div>
-          <div v-if="card && !loading" class="cardDisplay h-[400px]">
-            <section class="cards flex flex-row absolute top-[460px] right-[720px] z-4">
+          <div v-if="card && !loading" class="h-[400px]">
+            <section class="flex flex-row absolute top-[460px] right-[720px] z-4">
               <div v-if="card.cardNumbers[0]" class="absolute top-0 right-7">
                 <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length"
                   @click.stop="handleGameClick('0', card.cardNumbers[0].toString())" />
