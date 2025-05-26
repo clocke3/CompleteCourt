@@ -19,12 +19,20 @@ public class CardService {
     @Autowired
     private CardRepository cardRepository;
 
+    /**
+     * Get all cards in repo
+     * @return List<CardDTO>
+     */
     public List<CardDTO> getAll() {
        return cardRepository.findAll().stream()
             .map(this::toDTO)
             .toList();
     }
 
+    /**
+     * Get a random card from the repo
+     * @return CardDTO
+     */
     public CardDTO getRandomCard() {
         Random r = new Random();
         Long count = cardRepository.count();
@@ -40,7 +48,7 @@ public class CardService {
 
 
     /**
-     * Convert CardDTO to a CardEntity 
+     * Convert CardDTO to a CardEntity
      * @param dto
      * @return CardEntity
      */
