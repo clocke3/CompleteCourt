@@ -77,8 +77,6 @@ public class GameService {
         // do operation
         Integer firstNumber = Integer.parseInt(operation[0]);
         Integer secondNumber = Integer.parseInt(operation[2]);
-        System.out.println(firstNumber);
-        System.out.println(secondNumber);
         String oper = operation[1];
         Integer newNumber = doMath(firstNumber, secondNumber, oper);
         return String.valueOf(newNumber);

@@ -44,7 +44,7 @@ public class CardService {
      * @param dto
      * @return CardEntity
      */
-    private CardEntity toEntity(CardDTO dto) {
+    public CardEntity toEntity(CardDTO dto) {
         return new CardEntity(
             // id
             dto.getCardId(),
