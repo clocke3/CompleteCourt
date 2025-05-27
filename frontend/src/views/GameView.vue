@@ -220,21 +220,21 @@ export default {
           </div>
           <div class="flex flex-col max-h-[450px]">
             <img src="../assets/images/gameboard_background.png" height="600" width="450" class="h-auto max-w-full" />
-            <div v-if="card && !loading" class="relative bottom-40 left-1">
-              <section class="flex flex-row">
-                <div v-if="card.cardNumbers[0]">
+            <div v-if="card && !loading">
+              <section class="flex flex-row relative bottom-40 left-7">
+                <div v-if="card.cardNumbers[0]" class="absolute">
                   <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length"
                     @click.stop="handleGameClick('0', card.cardNumbers[0].toString())" />
                 </div>
-                <div v-if="card.cardNumbers[1]">
+                <div v-if="card.cardNumbers[1]" class="absolute left-24">
                   <CardButton cardId="1" :cardNumber="card.cardNumbers[1]" :operationLength="operation.length"
                     @click.stop="handleGameClick('1', card.cardNumbers[1].toString())" />
                 </div>
-                <div v-if="card.cardNumbers[2]">
+                <div v-if="card.cardNumbers[2]" class="absolute left-48">
                   <CardButton cardId="2" :cardNumber="card.cardNumbers[2]" :operationLength="operation.length"
                     @click.stop="handleGameClick('2', card.cardNumbers[2].toString())" />
                 </div>
-                <div v-if="card.cardNumbers[3]">
+                <div v-if="card.cardNumbers[3]" class="absolute left-72">
                   <CardButton cardId="3" :cardNumber="card.cardNumbers[3]" :operationLength="operation.length"
                     @click.stop="handleGameClick('3', card.cardNumbers[3].toString())" />
                 </div>
@@ -244,9 +244,9 @@ export default {
         </div>
         <div>
           <GameTimer :seconds="gameTimer" @done="gameTimerDone($event)" />
-          <div class="operators border-4 border-dusty-midnight-300">
+          <div class="operators border-4 border-dusty-midnight-300 max-w-fit">
             <TitleBar title="Operators" />
-            <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight-300 p-1.5">
+            <div class="grid grid-cols-4 gap-2 border-t-2 border-t-dusty-midnight-300 p-3">
               <OperatorButton oId="addOperator" :oLength="operation.length" operator="+"
                 @click.stop="handleGameClick('addOperator', '+')" />
               <OperatorButton oId="subOperator" :oLength="operation.length" operator="-"

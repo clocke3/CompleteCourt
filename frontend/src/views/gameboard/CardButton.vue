@@ -46,7 +46,7 @@ export default {
 
 <template>
   <div>
-    <button id="${cId}" :class="isActive ? 'activeBtn relative' : 'relative'" @click="[toggleActive(), $emit('click')]">
+    <button id="${cId}" :class="isActive ? 'activeBtn' : ''" @click="[toggleActive(), $emit('click')]">
         <img src="../../assets/images/cards/regular/card_clover_reg.png" v-show="!isActive && icon == 1" />
         <img src="../../assets/images/cards/active/card_clover_active.png" v-show="isActive && icon == 1" />
         <img src="../../assets/images/cards/regular/card_heart_reg.png" v-show="!isActive && icon == 2" />
@@ -67,7 +67,7 @@ export default {
 @import "tailwindcss";
 
 .cardNumber {
-  @apply absolute top-14 left-9 text-4xl pl-1 text-white z-40;
+  @apply relative bottom-[70px] left-0.5 text-4xl pl-1 text-white;
 }
 
 button {
@@ -83,7 +83,7 @@ button:active {
 }
 
 .doubleDigits {
-  @apply absolute top-14 left-6 text-4xl pl-1 text-white z-40;
+  @apply relative bottom-[70px] left-0.5 text-4xl pl-1 text-white;
 }
 
 .activeBtn > .doubleDigits {
