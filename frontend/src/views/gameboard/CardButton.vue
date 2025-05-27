@@ -20,16 +20,15 @@ export default {
   },
   watch: {
     operationLength(newValue) {
-      if (newValue === 2) {
+      if (newValue === 3) {
         this.isActive = false;
       }
     }
   },
   methods: {
     toggleActive() {
-      console.log(this.operationLength);
       if (this.operationLength == 0) {
-        this.isActive = !this.isActive;
+        this.isActive = true;
       }
     },
     randomizeIcon() {
@@ -46,18 +45,18 @@ export default {
 
 <template>
   <div>
-    <button id="${cId}" :class="isActive ? 'activeBtn' : ''" @click="[toggleActive(), $emit('click')]">
-        <img src="../../assets/images/cards/regular/card_clover_reg.png" v-show="!isActive && icon == 1" />
-        <img src="../../assets/images/cards/active/card_clover_active.png" v-show="isActive && icon == 1" />
-        <img src="../../assets/images/cards/regular/card_heart_reg.png" v-show="!isActive && icon == 2" />
-        <img src="../../assets/images/cards/active/card_heart_active.png" v-show="isActive && icon == 2" />
-        <img src="../../assets/images/cards/regular/card_diamond_reg.png" v-show="!isActive && icon == 3" />
-        <img src="../../assets/images/cards/active/card_diamond_active.png" v-show="isActive && icon == 3" />
-        <img src="../../assets/images/cards/regular/card_spade_reg.png" v-show="!isActive && icon == 4" />
-        <img src="../../assets/images/cards/active/card_spade_active.png" v-show="isActive && icon == 4" />
-       <div :class="cardNumber > 9 ? 'doubleDigits' : 'cardNumber'">
+    <button :id="cId" :class="isActive ? 'activeBtn' : ''" @click.stop="() => { toggleActive(); $emit('click') }">
+      <img src="../../assets/images/cards/regular/card_clover_reg.png" v-show="!isActive && icon == 1" />
+      <img src="../../assets/images/cards/active/card_clover_active.png" v-show="isActive && icon == 1" />
+      <img src="../../assets/images/cards/regular/card_heart_reg.png" v-show="!isActive && icon == 2" />
+      <img src="../../assets/images/cards/active/card_heart_active.png" v-show="isActive && icon == 2" />
+      <img src="../../assets/images/cards/regular/card_diamond_reg.png" v-show="!isActive && icon == 3" />
+      <img src="../../assets/images/cards/active/card_diamond_active.png" v-show="isActive && icon == 3" />
+      <img src="../../assets/images/cards/regular/card_spade_reg.png" v-show="!isActive && icon == 4" />
+      <img src="../../assets/images/cards/active/card_spade_active.png" v-show="isActive && icon == 4" />
+      <div :class="cardNumber > 9 ? 'doubleDigits' : 'cardNumber'">
         {{ cardNumber }}
-       </div>
+      </div>
     </button>
   </div>
 </template>
@@ -78,7 +77,7 @@ button:active {
   @apply bg-transparent;
 }
 
-.activeBtn > .cardNumber {
+.activeBtn>.cardNumber {
   @apply text-dusty-midnight-300;
 }
 
@@ -86,8 +85,7 @@ button:active {
   @apply relative bottom-[70px] left-0.5 text-4xl pl-1 text-white;
 }
 
-.activeBtn > .doubleDigits {
+.activeBtn>.doubleDigits {
   @apply text-dusty-midnight-300;
 }
-
 </style>

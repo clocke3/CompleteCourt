@@ -17,7 +17,6 @@ export default {
       const query: LocationQuery = this.$route.query;
       const time: string = query.time!.toString()
       this.timer = Number.parseInt(time);
-      console.log(this.timer);
       if (this.timer == 60) {
         this.timerText = '1'
       } else if (this.timer == 120) {

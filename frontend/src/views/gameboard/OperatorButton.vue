@@ -33,7 +33,7 @@ export default {
 
 <template>
   <div>
-    <button id="${oId}" :class="isActive ? 'activeBtn' : ''" @click="[toggleActive(), $emit('click')]">
+    <button :id="oId" :class="isActive ? 'activeBtn' : ''" @click.stop="() => { toggleActive(); $emit('click') }">
       <p class="text-5xl pl-2"> {{ operator }}</p>
     </button>
   </div>

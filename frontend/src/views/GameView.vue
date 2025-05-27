@@ -15,6 +15,7 @@ export default {
       operation: [] as string[],         // user operation by click of buttons
       endGame: false,                    // when all cards are exhausted or timer runs out
       errors: [] as string[],            // errors caught while playing the game
+      correct: false,                    // array to catch a correct solution
       gameTimer: 0 as number,            // timer for game
       solved: 0 as number,               // number of cards solved when time runs out
     }
@@ -40,7 +41,7 @@ export default {
           }
         }
       } catch (error) {
-        console.error('Error getting card:', error)
+        console.error('Error getting card: ', error)
         this.loading = false
       }
     },
@@ -167,6 +168,10 @@ export default {
             if (this.idsInDB.some((item) => typeof item === 'number')) {
               this.newCard();
               this.solved++;
+              this.correct = true;
+              setTimeout(() => {
+                this.correct = false;
+              }, 3000);
             } else {
               this.endGame = true;
             }
@@ -182,6 +187,7 @@ export default {
   // grabbing all the card ids from the backend before loading app
   created() {
     this.errors = [];
+    this.correct = false;
     this.starting = true;
     const validOperators: string[] = ['+', '-', 'x', '/'];
     this.operators = validOperators;
@@ -207,10 +213,14 @@ export default {
       <div class="text-dusty-midnight-300 text-4xl" v-if="endGame">
         <p>Game Over</p>
         <p v-if="solved !== 1">Congratulations! You solved {{ solved }} sets!</p>
-        <p v-if="solved == 1">Congratulations! You solved 1 sets</p>
+        <p v-if="solved == 1">Congratulations! You solved 1 set!</p>
       </div>
       <NavBar />
-      <div class="absolute top-1/12 left-[490px] text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
+      <div class="block mr-auto ml-auto mb-4 text-3xl text-green-600" v-show="correct">
+        <p v-if="solved !== 1">Correct! You have solved {{ solved }} sets so far!</p>
+        <p v-if="solved == 1">Correct! You have solved 1 set so far!</p>
+      </div>
+      <div class="block mr-auto ml-auto mb-4 text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
         {{ errors[0] }}
       </div>
       <div class="rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
@@ -221,22 +231,22 @@ export default {
           <div class="flex flex-col max-h-[450px]">
             <img src="../assets/images/gameboard_background.png" height="600" width="450" class="h-auto max-w-full" />
             <div v-if="card && !loading">
-              <section class="flex flex-row relative bottom-40 left-7">
+              <section class="flex flex-row relative bottom-40 left-6">
                 <div v-if="card.cardNumbers[0]" class="absolute">
                   <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length"
-                    @click.stop="handleGameClick('0', card.cardNumbers[0].toString())" />
+                    @click="handleGameClick('0', card.cardNumbers[0].toString())" />
                 </div>
                 <div v-if="card.cardNumbers[1]" class="absolute left-24">
                   <CardButton cardId="1" :cardNumber="card.cardNumbers[1]" :operationLength="operation.length"
-                    @click.stop="handleGameClick('1', card.cardNumbers[1].toString())" />
+                    @click="handleGameClick('1', card.cardNumbers[1].toString())" />
                 </div>
                 <div v-if="card.cardNumbers[2]" class="absolute left-48">
                   <CardButton cardId="2" :cardNumber="card.cardNumbers[2]" :operationLength="operation.length"
-                    @click.stop="handleGameClick('2', card.cardNumbers[2].toString())" />
+                    @click="handleGameClick('2', card.cardNumbers[2].toString())" />
                 </div>
                 <div v-if="card.cardNumbers[3]" class="absolute left-72">
                   <CardButton cardId="3" :cardNumber="card.cardNumbers[3]" :operationLength="operation.length"
-                    @click.stop="handleGameClick('3', card.cardNumbers[3].toString())" />
+                    @click="handleGameClick('3', card.cardNumbers[3].toString())" />
                 </div>
               </section>
             </div>
@@ -248,13 +258,13 @@ export default {
             <TitleBar title="Operators" />
             <div class="grid grid-cols-4 gap-2 border-t-2 border-t-dusty-midnight-300 p-3">
               <OperatorButton oId="addOperator" :oLength="operation.length" operator="+"
-                @click.stop="handleGameClick('addOperator', '+')" />
+                @click="handleGameClick('addOperator', '+')" />
               <OperatorButton oId="subOperator" :oLength="operation.length" operator="-"
-                @click.stop="handleGameClick('subOperator', '-')" />
+                @click="handleGameClick('subOperator', '-')" />
               <OperatorButton oId="mulOperator" :oLength="operation.length" operator="x"
-                @click.stop="handleGameClick('mulOperator', 'x')" />
+                @click="handleGameClick('mulOperator', 'x')" />
               <OperatorButton oId="divOperator" :oLength="operation.length" operator="/"
-                @click.stop="handleGameClick('divOperator', '/')" />
+                @click="handleGameClick('divOperator', '/')" />
             </div>
           </div>
         </div>
