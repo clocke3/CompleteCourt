@@ -6,7 +6,7 @@
     <div id="content">
       <div class="welcomeMessage text-dusty-midnight-300">
           <p class="text-3xl">Welcome To</p>
-          <img src="../assets/images/app_logo.png" class="w-[33%] z-1 ml-[490px]"/>
+          <img src="../assets/images/app_logo.png" class="w-[33%] block ml-auto mr-auto"/>
           <p class="mt-3 text-lg">Can you get the number 24 from a set of cards?</p>
       </div>
       <div class="gameModes">
