@@ -56,11 +56,11 @@ export default {
 
 <template>
   <div class="flex flex-col mb-3">
-    <div class="border-2 border-b-0 border-dusty-midnight-300 w-[290px]">
+    <div class="border-4 border-b-0 border-dusty-midnight-300 w-[290px]">
       <TitleBar title="Timer" />
     </div>
     <div class="flex flex-row mb-3">
-      <div class="border-2 border-dusty-midnight-300 h-20 w-[210px] pl-2 pt-2">
+      <div class="border-4 border-dusty-midnight-300 h-20 w-[210px] pl-2 pt-2">
         <div v-if="overall >= 60">
           <p class="text-6xl text-dusty-midnight-300"> {{ min }}:{{ sec }}</p>
         </div>
@@ -74,15 +74,15 @@ export default {
           <p class="text-6xl text-red-600"> 00:{{ sec }} </p>
         </div>
       </div>
-      <div class="hourglass border-2 border-dusty-midnight-300 border-l-0 flex-none w-20">
+      <div class="hourglass border-4 border-dusty-midnight-300 border-l-0 flex-none w-20">
         <div class="glass">
-          <img src="@/assets/images/timers/hourglass.png" height="120px" width="71px" v-show="overall % 6 == 0 && turn" />
-          <img src="@/assets/images/timers/hourglass_2.png" height="120px" width="71px" v-show="overall % 6 == 1" />
-          <img src="@/assets/images/timers/hourglass_3.png" height="120px" width="71px" v-show="overall % 6 == 2" />
-          <img src="@/assets/images/timers/hourglass_4.png" height="120px" width="71px" v-show="overall % 6 == 3" />
-          <img src="@/assets/images/timers/hourglass_5.png" height="120px" width="71px" v-show="overall % 6 == 4" />
-          <img src="@/assets/images/timers/hourglass_6.png" height="120px" width="71px" v-show="overall % 6 == 5" />
-          <img src="@/assets/images/timers/hourglass.png" class="rotate-180" height="120px" width="71px" v-show="overall % 6 == 0 && !turn" />
+          <img src="@/assets/images/timers/hourglass.png" height="60px" width="71px" v-show="overall % 6 == 0 && turn" />
+          <img src="@/assets/images/timers/hourglass_2.png" height="60px" width="71px" v-show="overall % 6 == 1" />
+          <img src="@/assets/images/timers/hourglass_3.png" height="60px" width="71px" v-show="overall % 6 == 2" />
+          <img src="@/assets/images/timers/hourglass_4.png" height="60px" width="71px" v-show="overall % 6 == 3" />
+          <img src="@/assets/images/timers/hourglass_5.png" height="60px" width="71px" v-show="overall % 6 == 4" />
+          <img src="@/assets/images/timers/hourglass_6.png" height="60px" width="71px" v-show="overall % 6 == 5" />
+          <img src="@/assets/images/timers/hourglass.png" class="rotate-180" height="60px" width="71px" v-show="overall % 6 == 0 && !turn" />
         </div>
       </div>
     </div>

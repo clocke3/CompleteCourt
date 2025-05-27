@@ -74,13 +74,13 @@ export default {
         this.errors.push(errorMessage);
         setTimeout(() => {
           this.errors = [];
-      }, 3000);
+        }, 3000);
 
       } catch (error: any) {
         this.errors.push(error.message);
         setTimeout(() => {
           this.errors = [];
-      }, 3000);
+        }, 3000);
         this.loading = false;
       }
     },
@@ -122,8 +122,8 @@ export default {
       this.card = response;
       const message = 'WARNING: didn\'t get 24, cards were reset.';
       this.errors.push(message);
-        setTimeout(() => {
-          this.errors = [];
+      setTimeout(() => {
+        this.errors = [];
       }, 3000);
     },
     // auto reset game variables and show a new card
@@ -145,7 +145,7 @@ export default {
         this.endGame = true
       }
     },
-    saveTime(){
+    saveTime() {
       const query: LocationQuery = this.$route.query;
       const gameTime: string | Object = query.gameTime!.valueOf();
       this.gameTimer = Number.parseInt(gameTime.toString());
@@ -211,40 +211,40 @@ export default {
       </div>
       <NavBar />
       <div class="absolute top-1/12 left-[490px] text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
-        {{  errors[0] }}
-      </div>
-      <div class="absolute top-[218px] left-[306px] z-1 w-2xl" v-if="!endGame">
-        <img src="../assets/images/gameboard_background.png" class="relative w-[58.9%]" />
+        {{ errors[0] }}
       </div>
       <div class="rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
-        <div class="h-[99%] w-[400px] border-2 border-dusty-midnight-300">
+        <div class="border-4 border-dusty-midnight-300">
           <div class="border-b-2 border-dusty-midnight-300">
             <TitleBar title="Complete Court" />
           </div>
-          <div v-if="card && !loading" class="h-[400px]">
-            <section class="flex flex-row absolute top-[460px] right-[720px] z-4">
-              <div v-if="card.cardNumbers[0]" class="absolute top-0 right-7">
-                <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length"
-                  @click.stop="handleGameClick('0', card.cardNumbers[0].toString())" />
-              </div>
-              <div v-if="card.cardNumbers[1]" class="absolute top-0 right-[115px]">
-                <CardButton cardId="1" :cardNumber="card.cardNumbers[1]" :operationLength="operation.length"
-                  @click.stop="handleGameClick('1', card.cardNumbers[1].toString())" />
-              </div>
-              <div v-if="card.cardNumbers[2]" class="absolute top-0 right-[202px]">
-                <CardButton cardId="2" :cardNumber="card.cardNumbers[2]" :operationLength="operation.length"
-                  @click.stop="handleGameClick('2', card.cardNumbers[2].toString())" />
-              </div>
-              <div v-if="card.cardNumbers[3]" class="absolute top-0 right-[289px]">
-                <CardButton cardId="3" :cardNumber="card.cardNumbers[3]" :operationLength="operation.length"
-                  @click.stop="handleGameClick('3', card.cardNumbers[3].toString())" />
-              </div>
-            </section>
+          <div class="flex flex-col max-h-[450px]">
+            <img src="../assets/images/gameboard_background.png" height="600" width="450" class="h-auto max-w-full" />
+            <div v-if="card && !loading" class="relative bottom-40 left-1">
+              <section class="flex flex-row">
+                <div v-if="card.cardNumbers[0]">
+                  <CardButton cardId="0" :cardNumber="card.cardNumbers[0]" :operationLength="operation.length"
+                    @click.stop="handleGameClick('0', card.cardNumbers[0].toString())" />
+                </div>
+                <div v-if="card.cardNumbers[1]">
+                  <CardButton cardId="1" :cardNumber="card.cardNumbers[1]" :operationLength="operation.length"
+                    @click.stop="handleGameClick('1', card.cardNumbers[1].toString())" />
+                </div>
+                <div v-if="card.cardNumbers[2]">
+                  <CardButton cardId="2" :cardNumber="card.cardNumbers[2]" :operationLength="operation.length"
+                    @click.stop="handleGameClick('2', card.cardNumbers[2].toString())" />
+                </div>
+                <div v-if="card.cardNumbers[3]">
+                  <CardButton cardId="3" :cardNumber="card.cardNumbers[3]" :operationLength="operation.length"
+                    @click.stop="handleGameClick('3', card.cardNumbers[3].toString())" />
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-        <div class="rightSide z-10">
+        <div>
           <GameTimer :seconds="gameTimer" @done="gameTimerDone($event)" />
-          <div class="operators border-2 border-dusty-midnight-300">
+          <div class="operators border-4 border-dusty-midnight-300">
             <TitleBar title="Operators" />
             <div class="grid grid-flow-col auto-cols-max border-t-2 border-t-dusty-midnight-300 p-1.5">
               <OperatorButton oId="addOperator" :oLength="operation.length" operator="+"
