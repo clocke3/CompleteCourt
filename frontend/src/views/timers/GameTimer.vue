@@ -92,6 +92,6 @@ export default {
 <style>
 @import 'tailwindcss';
 .glass {
-  @apply mt-1 mr-1 rotate-180;
+  @apply mr-0.5 rotate-180;
 }
 </style>
