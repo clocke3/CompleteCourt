@@ -99,21 +99,29 @@ export default {
     // do operation (triggered in handleGameClick)
     async handleOperation() {
       // get new number from operation
-      const newNumber = await solve(this.card, this.operation)
-
-      // remove used cards from card array
-      for (let card of this.usedCards) {
-        const c = Number(card)
-        delete this.card.cardNumbers[c]
-      }
+      const newNumber: number = await solve(this.card, this.operation)
 
       // assign new number to array using index of last card in usedCards array
-      const lastUsedCardIndex = this.usedCards.pop()
-      const idx = Number(lastUsedCardIndex)
-      this.card.cardNumbers[idx] = newNumber
+      if (newNumber || newNumber == 0) {
+        const lastUsedCardIndex = this.usedCards.pop()
+        console.log(lastUsedCardIndex);
+        const idx: number = Number(lastUsedCardIndex)
+        if (newNumber == 0) {
+          this.card.cardNumbers[idx] = newNumber.toString()
+        } else {
+          this.card.cardNumbers[idx] = newNumber
+        }
+        console.log('After change: ' + this.card.cardNumbers[idx]);
+
+        // remove other card from card array
+        const remainingCardIdx = this.usedCards.pop();
+        console.log(remainingCardIdx);
+        const idxNumber = Number(remainingCardIdx);
+        delete this.card.cardNumbers[idxNumber];
+      }
 
       // empty usedCard array
-      this.usedCards = []
+      // this.usedCards = []
       // clear operation
       this.operation = []
     },
@@ -160,7 +168,7 @@ export default {
           // the correct response the array is converted to a
           // string and filtered of its commas to get the remaining values
           const conversion = newValue!.cardNumbers
-            .filter((num: number) => num !== undefined)
+            .filter((num: number | string) => num !== undefined)
             .join(',');
 
           if (conversion === '24') {
@@ -216,14 +224,14 @@ export default {
         <p v-if="solved == 1">Congratulations! You solved 1 set!</p>
       </div>
       <NavBar />
-      <div class="block mr-auto ml-auto mb-4 text-3xl text-green-600" v-show="correct">
+      <div class="block mr-auto ml-auto mb-4 text-3xl text-green-600" v-show="correct && !endGame">
         <p v-if="solved !== 1">Correct! You have solved {{ solved }} sets so far!</p>
         <p v-if="solved == 1">Correct! You have solved 1 set so far!</p>
       </div>
       <div class="block mr-auto ml-auto mb-4 text-3xl text-dusty-midnight-300" v-show="errors.length > 0">
         {{ errors[0] }}
       </div>
-      <div class="rounded-xl grid grid-cols-2 gap-8" v-if="!endGame">
+      <div class="rounded-xl grid grid-cols-2 gap-8 mt-5" v-if="!endGame">
         <div class="border-4 border-dusty-midnight-300">
           <div class="border-b-2 border-dusty-midnight-300">
             <TitleBar title="Complete Court" />
